@@ -7,9 +7,7 @@
   const $  = (sel, ctx = document) => ctx.querySelector(sel);
   const $$ = (sel, ctx = document) => Array.from(ctx.querySelectorAll(sel));
 
-  /* ---------------------------------------------------------
-     1. Mobile navigation
-     --------------------------------------------------------- */
+  /* 1. Mobile navigation */
   function initNav() {
     const toggle = $('#navToggle');
     const nav    = $('#primaryNav');
@@ -61,9 +59,7 @@
     );
   }
 
-  /* ---------------------------------------------------------
-     2. Sticky header
-     --------------------------------------------------------- */
+  /* 2. Sticky header */
   function initHeader() {
     const header = $('#siteHeader');
     if (!header) return;
@@ -72,9 +68,7 @@
     window.addEventListener('scroll', onScroll, { passive: true });
   }
 
-  /* ---------------------------------------------------------
-     3. Before / After slider
-     --------------------------------------------------------- */
+  /* 3. Before / After slider */
   function initBeforeAfter() {
     $$('[data-ba]').forEach((slider) => {
       const range = $('.ba-range', slider);
@@ -117,9 +111,7 @@
     });
   }
 
-  /* ---------------------------------------------------------
-     4. Accordions
-     --------------------------------------------------------- */
+  /* 4. Accordions */
   function initAccordions() {
     $$('.accordion').forEach((acc) => {
       const items = $$('.accordion-item', acc);
@@ -163,9 +155,7 @@
     });
   }
 
-  /* ---------------------------------------------------------
-     5. Gallery
-     --------------------------------------------------------- */
+  /* 5. Gallery */
   function initGallery() {
     const grid = $('[data-gallery]');
     if (!grid) return;
@@ -200,11 +190,21 @@
 
     const open = (item) => {
       lastFocused = document.activeElement;
-      const media   = $('.ph', item);
+      const img = $('img', item);
+      const media = $('.ph', item);
       const caption = $('figcaption', item);
 
-      lbBox.className = 'ph';
-      lbBox.setAttribute('data-label', media?.dataset.label || '');
+      lbBox.innerHTML = '';
+      if (img) {
+        const clone = document.createElement('img');
+        clone.src = img.src;
+        clone.alt = img.alt || '';
+        lbBox.appendChild(clone);
+        lbBox.className = '';
+      } else {
+        lbBox.className = 'ph';
+        lbBox.setAttribute('data-label', media?.dataset.label || '');
+      }
       lbCaption.textContent = caption?.textContent || '';
 
       lb.classList.add('is-open');
@@ -239,9 +239,7 @@
     });
   }
 
-  /* ---------------------------------------------------------
-     6. Contact form — async email submission
-     --------------------------------------------------------- */
+  /* 6. Contact form */
   function initForms() {
     $$('form[data-form]').forEach((form) => {
       const status = $('.form-status', form);
@@ -292,7 +290,6 @@
           return;
         }
 
-        // Inject the quote builder summary (if present) into the form data
         const quoteSummary = document.getElementById('qbSummaryText');
         if (quoteSummary && quoteSummary.value) {
           const hidden = document.createElement('input');
@@ -333,16 +330,12 @@
     });
   }
 
-  /* ---------------------------------------------------------
-     7. Footer year
-     --------------------------------------------------------- */
+  /* 7. Footer year */
   function initYear() {
     $$('[data-year]').forEach((el) => (el.textContent = new Date().getFullYear()));
   }
 
-  /* ---------------------------------------------------------
-     8. Scroll reveal
-     --------------------------------------------------------- */
+  /* 8. Scroll reveal */
   function initReveal() {
     const els = $$('[data-reveal]');
     if (!els.length) return;
@@ -365,9 +358,7 @@
     els.forEach((el) => io.observe(el));
   }
 
-  /* ---------------------------------------------------------
-     9. Active nav highlighting
-     --------------------------------------------------------- */
+  /* 9. Active nav */
   function initActiveNav() {
     const path = location.pathname.split('/').pop() || 'index.html';
     $$('.nav-list a').forEach((a) => {
@@ -377,9 +368,7 @@
     });
   }
 
-  /* ---------------------------------------------------------
-     10. Smooth anchor scroll
-     --------------------------------------------------------- */
+  /* 10. Smooth anchor scroll */
   function initAnchorScroll() {
     document.addEventListener('click', (e) => {
       const link = e.target.closest('a[href^="#"]');
@@ -400,9 +389,7 @@
     });
   }
 
-  /* ---------------------------------------------------------
-     11. Animated stat counters
-     --------------------------------------------------------- */
+  /* 11. Animated stat counters */
   function initStats() {
     const els = $$('[data-count]');
     if (!els.length) return;
@@ -448,9 +435,7 @@
     els.forEach((el) => io.observe(el));
   }
 
-  /* ---------------------------------------------------------
-     12. SMS booking links
-     --------------------------------------------------------- */
+  /* 12. SMS booking links */
   function initSmsLinks() {
     const PHONE = '15177811731';
 
@@ -464,9 +449,7 @@
     });
   }
 
-  /* ---------------------------------------------------------
-     Boot
-     --------------------------------------------------------- */
+  /* Boot */
   document.addEventListener('DOMContentLoaded', () => {
     initNav();
     initHeader();
