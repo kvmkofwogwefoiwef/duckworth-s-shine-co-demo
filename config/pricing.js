@@ -1,22 +1,15 @@
 /* =========================================================
    DuckWorth's Shine Co. — Pricing
-   =========================================================
-
-   Edit prices here. Everything updates automatically:
-   - The quote builder on the contact page
-   - The mini quote builder on the packages page
-   - The pricing tables on the packages page
-
-   IMPORTANT: Only edit the numbers after "price:", not the
-   structure. Prices are in USD. They're just numbers —
-   no "$" needed (the site adds it).
+   Edit prices here. Everything updates automatically.
    ========================================================= */
 
 const PRICING = {
 
-  /* ---------------------------------------------------------
-     VEHICLES — Real prices from the shop
-     --------------------------------------------------------- */
+  locations: {
+    shop:   { label: "At the shop (1350 E Columbia Ave)" },
+    mobile: { label: "Mobile — we come to you" }
+  },
+
   vehicles: {
     sedan: {
       label: "Sedan / Coupe",
@@ -52,10 +45,6 @@ const PRICING = {
     }
   },
 
-  /* ---------------------------------------------------------
-     BOATS — Placeholder prices
-     Update these once you have real boat pricing.
-     --------------------------------------------------------- */
   boats: {
     boatUnder18: {
       label: "Boat — Under 18 ft",
@@ -91,10 +80,6 @@ const PRICING = {
     }
   },
 
-  /* ---------------------------------------------------------
-     CONDITION MULTIPLIERS
-     Applies to the base price based on vehicle condition.
-     --------------------------------------------------------- */
   conditions: {
     good:    { label: "Well-kept",                multiplier: 1.0  },
     average: { label: "Daily driver, some dirt",  multiplier: 1.15 },
@@ -102,18 +87,7 @@ const PRICING = {
     severe:  { label: "Heavy / neglected",        multiplier: 1.7  }
   },
 
-  /* ---------------------------------------------------------
-     QUOTE RANGE
-     Range shown = base price × this multiplier (upper bound)
-     --------------------------------------------------------- */
   rangeUpperMultiplier: 1.25,
 
-  /* ---------------------------------------------------------
-     MESSAGES
-     --------------------------------------------------------- */
-  conditionNote: "Rough condition (pet hair, heavy stains, odor) typically adds 15–70% depending on severity. We'll always confirm the final price before starting work.",
-
-  boatNote: "Boats with heavy oxidation, barnacle buildup, or waterline stains may need extra labor; we'll confirm before starting.",
-
-  fleetNote: "Fleet pricing is quoted per project based on fleet size and vehicle type. Message us for a custom quote."
+  conditionNote: "Rough condition (pet hair, heavy stains, odor) typically adds 15–70% depending on severity. We'll always confirm the final price before starting work."
 };

@@ -7,7 +7,6 @@
   var $  = function (sel, ctx) { return (ctx || document).querySelector(sel); };
   var $$ = function (sel, ctx) { return Array.prototype.slice.call((ctx || document).querySelectorAll(sel)); };
 
-  /* 1. Mobile navigation */
   function initNav() {
     var toggle = $('#navToggle');
     var nav    = $('#primaryNav');
@@ -32,9 +31,7 @@
           var isOpen = li.classList.contains('is-open');
           if (!isOpen) {
             e.preventDefault();
-            $$('.has-drop.is-open', nav).forEach(function (o) {
-              if (o !== li) o.classList.remove('is-open');
-            });
+            $$('.has-drop.is-open', nav).forEach(function (o) { if (o !== li) o.classList.remove('is-open'); });
             li.classList.add('is-open');
           }
         }
@@ -46,13 +43,8 @@
       if (!nav.contains(e.target) && !toggle.contains(e.target)) close();
     });
 
-    document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape') close();
-    });
-
-    window.addEventListener('resize', function () {
-      if (window.innerWidth > 1000) close();
-    });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
+    window.addEventListener('resize', function () { if (window.innerWidth > 1000) close(); });
 
     $$('a', nav).forEach(function (a) {
       a.addEventListener('click', function () {
@@ -61,7 +53,6 @@
     });
   }
 
-  /* 2. Sticky header */
   function initHeader() {
     var header = $('#siteHeader');
     if (!header) return;
@@ -70,7 +61,6 @@
     window.addEventListener('scroll', onScroll, { passive: true });
   }
 
-  /* 3. Before / After slider */
   function initBeforeAfter() {
     $$('[data-ba]').forEach(function (slider) {
       var range = $('.ba-range', slider);
@@ -114,7 +104,6 @@
     });
   }
 
-  /* 4. Accordions */
   function initAccordions() {
     $$('.accordion').forEach(function (acc) {
       var items = $$('.accordion-item', acc);
@@ -160,7 +149,6 @@
     });
   }
 
-  /* 5. Gallery */
   function initGallery() {
     var grid = $('[data-gallery]');
     if (!grid) return;
@@ -244,7 +232,6 @@
     });
   }
 
-  /* 6. Contact form — sends via Hostinger PHP script */
   function initForms() {
     $$('form[data-form]').forEach(function (form) {
       var status = $('.form-status', form);
@@ -298,7 +285,6 @@
           return;
         }
 
-        // Add quote summary if available
         var quoteSummary = document.getElementById('qbSummaryText');
         if (quoteSummary && quoteSummary.value) {
           var hidden = document.createElement('input');
@@ -312,71 +298,50 @@
         var original = btn ? btn.textContent : '';
         if (btn) { btn.disabled = true; btn.textContent = 'Sending…'; }
 
+        var endpoint = form.getAttribute('action');
+
         var finish = function (ok, errorMsg) {
           if (btn) { btn.disabled = false; btn.textContent = original; }
           if (ok) {
             form.reset();
             showStatus('success', "Thanks — your request is in. We'll get back to you within one business day.");
-            // Optional: redirect to thank-you page
-            // window.location.href = 'thank-you.html';
+            // Optional: window.location.href = 'thank-you.html';
           } else {
             showStatus('error', errorMsg || 'Something went wrong. Please call or text us directly at 517-781-1731.');
           }
         };
 
-        var endpoint = form.getAttribute('action');
-
-        // Send to PHP script on Hostinger
         if (endpoint && endpoint !== '#' && endpoint.indexOf('send-mail.php') !== -1) {
           fetch(endpoint, {
             method: 'POST',
             body: new FormData(form)
           })
             .then(function (r) {
-              return r.json().catch(function () {
-                // If response isn't JSON, treat as failure
-                return { ok: false, error: 'Server returned invalid response.' };
-              });
+              return r.json().catch(function () { return { ok: false }; });
             })
             .then(function (data) {
-              if (data && data.ok) {
-                finish(true);
-              } else {
-                var msg = (data && data.error) ? data.error : null;
-                console.error('Mail error:', msg);
-                finish(false, msg);
-              }
+              if (data && data.ok) finish(true);
+              else finish(false, data && data.error);
             })
-            .catch(function (err) {
-              console.error('Fetch error:', err);
-              finish(false, 'Could not reach the server. Please check your connection and try again.');
-            });
+            .catch(function () { finish(false, 'Could not reach the server.'); });
         } else {
-          // Fallback for local testing before PHP is installed
-          console.warn('send-mail.php not set as form action — simulating success');
           setTimeout(function () { finish(true); }, 700);
         }
       });
     });
   }
 
-  /* 7. Footer year */
   function initYear() {
-    $$('[data-year]').forEach(function (el) {
-      el.textContent = new Date().getFullYear();
-    });
+    $$('[data-year]').forEach(function (el) { el.textContent = new Date().getFullYear(); });
   }
 
-  /* 8. Scroll reveal */
   function initReveal() {
     var els = $$('[data-reveal]');
     if (!els.length) return;
-
     if (!('IntersectionObserver' in window)) {
       els.forEach(function (el) { el.classList.add('is-visible'); });
       return;
     }
-
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
         if (!entry.isIntersecting) return;
@@ -386,11 +351,9 @@
         io.unobserve(el);
       });
     }, { threshold: 0.12, rootMargin: '0px 0px -60px' });
-
     els.forEach(function (el) { io.observe(el); });
   }
 
-  /* 9. Active nav */
   function initActiveNav() {
     var path = location.pathname.split('/').pop() || 'index.html';
     $$('.nav-list a').forEach(function (a) {
@@ -401,7 +364,6 @@
     });
   }
 
-  /* 10. Smooth anchor scroll */
   function initAnchorScroll() {
     document.addEventListener('click', function (e) {
       var link = e.target.closest('a[href^="#"]');
@@ -422,7 +384,6 @@
     });
   }
 
-  /* 11. Animated stat counters */
   function initStats() {
     var els = $$('[data-count]');
     if (!els.length) return;
@@ -468,10 +429,8 @@
     els.forEach(function (el) { io.observe(el); });
   }
 
-  /* 12. SMS booking links */
   function initSmsLinks() {
     var PHONE = '15177811731';
-
     $$('[data-sms]').forEach(function (el) {
       var vehicle = el.dataset.smsVehicle || '';
       var message = vehicle
@@ -482,7 +441,6 @@
     });
   }
 
-  /* Boot */
   document.addEventListener('DOMContentLoaded', function () {
     try { initNav(); }          catch (e) { console.error('initNav', e); }
     try { initHeader(); }       catch (e) { console.error('initHeader', e); }

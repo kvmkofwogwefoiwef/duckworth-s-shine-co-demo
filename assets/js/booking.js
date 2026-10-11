@@ -27,10 +27,7 @@
     if (!v) return;
 
     var available = Object.keys(v.services);
-    // If the current selected service isn't available for this vehicle, use the first one
-    if (available.indexOf(state.service) === -1) {
-      state.service = available[0];
-    }
+    if (available.indexOf(state.service) === -1) state.service = available[0];
 
     container.innerHTML = '';
 

@@ -1,6 +1,5 @@
 /* =========================================================
    DuckWorth's Shine Co. — Mini Quote Builder (packages.html)
-   Pulls prices from config/pricing.js
    ========================================================= */
 (function () {
   'use strict';

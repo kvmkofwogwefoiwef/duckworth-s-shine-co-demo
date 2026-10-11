@@ -51,9 +51,9 @@
     if (typeof CONTENT === 'undefined') return;
 
     /* Hero */
-    var e = $('[data-hero-eyebrow]'); if (e) e.textContent = CONTENT.heroEyebrow;
-    var t = $('[data-hero-title]');   if (t) t.textContent = CONTENT.heroTitle;
-    var s = $('[data-hero-subtitle]');if (s) s.textContent = CONTENT.heroSubtitle;
+    var e = $('[data-hero-eyebrow]');  if (e) e.textContent = CONTENT.heroEyebrow;
+    var t = $('[data-hero-title]');    if (t) t.textContent = CONTENT.heroTitle;
+    var s = $('[data-hero-subtitle]'); if (s) s.textContent = CONTENT.heroSubtitle;
 
     /* Trust bar */
     var tb = $('[data-trustbar]');

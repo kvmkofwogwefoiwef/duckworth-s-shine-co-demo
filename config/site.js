@@ -6,7 +6,7 @@
 const SITE_INFO = {
 
   businessName: "DuckWorth's Shine Co.",
-  tagline: "Shop, Boat & Fleet Detailing",
+  tagline: "Shop & Mobile Detailing",
 
   phone:    "517-781-1731",
   phoneRaw: "+15177811731",

@@ -5,24 +5,24 @@
 const CONTENT = {
 
   heroEyebrow: "Battle Creek, Michigan",
-  heroTitle: "Shop, Boat & Fleet Detailing",
-  heroSubtitle: "Professional detailing for cars, boats, work trucks, and commercial fleets — based in Battle Creek, serving Calhoun County and out to Ann Arbor.",
+  heroTitle: "Shop & Mobile Detailing",
+  heroSubtitle: "Vehicle, boat, and fleet detailing — at our Battle Creek shop or at your home, dock, or jobsite. Serving Calhoun County and out to Ann Arbor.",
   heroPrimaryCTA: "Get a Quote",
   heroSecondaryCTA: "Call",
 
   trustBarItems: [
-    "Locally Owned",
+    "Shop + Mobile Service",
     "Boats, Trucks & Fleets Welcome",
     "Serving Calhoun County & Ann Arbor"
   ],
 
   availabilityTitle: "What's available to book:",
-  availabilityBody: "Shop Detailing at our Battle Creek facility. Boat Detailing at the shop or on-location for larger jobs. Work Truck & Fleet cleaning at the shop, with scheduled programs available.",
+  availabilityBody: "Vehicle Detailing at the shop or mobile at your location. Boat Detailing at the shop or mobile at your dock or driveway. Work Truck & Fleet Detailing on-site at your yard or jobsite.",
 
   stats: [
     { value: 50,  suffix: "+",    label: "Vehicles Detailed" },
     { value: 100, suffix: "+ mi", label: "Service Radius" },
-    { value: 80, suffix: "%",    label: "Owner-Operated" }
+    { value: 100, suffix: "%",    label: "Owner-Operated" }
   ],
 
   owners: [
@@ -37,9 +37,9 @@ const CONTENT = {
   ],
 
   whyUs: [
-    { icon: "01", title: "Hand-Washed",    body: "No tunnel brushes, no automated equipment. Every job is done by hand, panel by panel." },
-    { icon: "02", title: "Boats & Trucks", body: "We handle the vehicles most detailers won't — gel coat, heavy grime, and work vehicles." },
-    { icon: "03", title: "Quoted Upfront", body: "You'll know the price before we start. No surprises at pickup." },
-    { icon: "04", title: "We Travel",      body: "Based in Battle Creek, but we'll come to you — from Kalamazoo to Ann Arbor." }
+    { icon: "01", title: "Shop or Mobile",  body: "Bring it to us at 1350 E Columbia Ave, or we come to you. Your call." },
+    { icon: "02", title: "Boats & Trucks",  body: "We handle the vehicles most detailers won't — gel coat, heavy grime, and work vehicles." },
+    { icon: "03", title: "Quoted Upfront",  body: "You'll know the price before we start. No surprises at pickup." },
+    { icon: "04", title: "We Travel",       body: "From Kalamazoo to Ann Arbor — mobile service across Calhoun County and beyond." }
   ]
 };
