@@ -44,6 +44,20 @@ const SITE_IMAGES = {
   "gallery6": "assets/img/placeholder.jpg",
 
   /* LOGO */
-  "logo": "assets/img/logo.png"
+  "logo": "assets/img/logo.png",
+
+  /* SERVICES PAGE GALLERIES */
+  "shopGallery1":  "assets/img/placeholder.jpg",
+  "shopGallery2":  "assets/img/placeholder.jpg",
+  "shopGallery3":  "assets/img/placeholder.jpg",
+  "shopGallery4":  "assets/img/placeholder.jpg",
+  "boatGallery1":  "assets/img/placeholder.jpg",
+  "boatGallery2":  "assets/img/placeholder.jpg",
+  "boatGallery3":  "assets/img/placeholder.jpg",
+  "boatGallery4":  "assets/img/placeholder.jpg",
+  "fleetGallery1": "assets/img/placeholder.jpg",
+  "fleetGallery2": "assets/img/placeholder.jpg",
+  "fleetGallery3": "assets/img/placeholder.jpg",
+  "fleetGallery4": "assets/img/placeholder.jpg"
 
 };

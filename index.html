@@ -102,10 +102,9 @@
     <div class="hero-media" data-bg="hero"></div>
     <div class="hero-scrim"></div>
     <div class="wrap hero-inner">
-      <p class="eyebrow">Battle Creek, Michigan</p>
-      <h1>Shop, Boat &amp; Fleet Detailing</h1>
-      <p class="hero-sub">Professional detailing for cars, boats, work trucks, and commercial
-        fleets — based in Battle Creek, serving Calhoun County and out to Ann Arbor.</p>
+      <p class="eyebrow" data-hero-eyebrow>Battle Creek, Michigan</p>
+      <h1 data-hero-title>Shop, Boat &amp; Fleet Detailing</h1>
+      <p class="hero-sub" data-hero-subtitle>Professional detailing for cars, boats, work trucks, and commercial fleets — based in Battle Creek, serving Calhoun County and out to Ann Arbor.</p>
       <div class="hero-actions">
         <a class="btn btn-primary btn-lg" href="contact.html">Get a Quote</a>
         <a class="btn btn-ghost btn-lg" href="tel:+15177811731">Call 517-781-1731</a>
@@ -114,7 +113,7 @@
   </section>
 
   <section class="trustbar">
-    <div class="wrap trustbar-inner">
+    <div class="wrap trustbar-inner" data-trustbar>
       <div class="trust-item"><span class="dot"></span> Locally Owned</div>
       <div class="trust-item"><span class="dot"></span> Boats, Trucks &amp; Fleets Welcome</div>
       <div class="trust-item"><span class="dot"></span> Serving Calhoun County &amp; Ann Arbor</div>
@@ -162,6 +161,16 @@
         </a>
       </div>
 
+      <div class="availability-note" style="margin-top:2.5rem">
+        <div class="availability-note-icon" aria-hidden="true">📅</div>
+        <div>
+          <p><strong data-availability-title>What's available to book:</strong></p>
+          <p data-availability-body>Shop Detailing at our Battle Creek facility. Boat Detailing at the shop or on-location for larger jobs. Work Truck &amp; Fleet cleaning at the shop, with scheduled programs available.</p>
+          <p>Ready to book or not sure what you need? Text us at
+            <a href="tel:+15177811731">517-781-1731</a>.</p>
+        </div>
+      </div>
+
       <p class="center mt-40">
         <a class="btn btn-outline" href="services.html">View All Services</a>
       </p>
@@ -170,7 +179,7 @@
 
   <section class="section section-alt">
     <div class="wrap">
-      <div class="stats-strip">
+      <div class="stats-strip" data-stats>
         <div class="stat">
           <div class="stat-value" data-count="50" data-suffix="+">0</div>
           <div class="stat-label">Vehicles Detailed</div>
@@ -180,7 +189,7 @@
           <div class="stat-label">Service Radius</div>
         </div>
         <div class="stat">
-          <div class="stat-value" data-count="80" data-suffix="%">0</div>
+          <div class="stat-value" data-count="100" data-suffix="%">0</div>
           <div class="stat-label">Owner-Operated</div>
         </div>
       </div>
@@ -219,7 +228,7 @@
         <h2>What Sets Us Apart</h2>
       </header>
 
-      <div class="grid grid-4">
+      <div class="grid grid-4" data-whyus>
         <div class="feature">
           <div class="feature-icon" aria-hidden="true">01</div>
           <h3>Hand-Washed</h3>
@@ -267,7 +276,7 @@
         </div>
         <div>
           <h3 style="font-size:1rem">Cities We Serve</h3>
-          <ul class="area-list">
+          <ul class="area-list" data-area-cities>
             <li><a href="detailing-kalamazoo.html">Kalamazoo</a></li>
             <li><a href="detailing-marshall.html">Marshall</a></li>
             <li><a href="detailing-springfield.html">Springfield</a></li>
@@ -292,7 +301,7 @@
         <h2>Meet the Owners</h2>
       </header>
 
-      <div class="grid grid-2">
+      <div class="grid grid-2" data-owners>
         <div class="card">
           <img class="card-media" data-img="teamDean" alt="Dean Duckworth" src="assets/img/placeholder.jpg">
           <div class="card-body">
@@ -316,7 +325,7 @@
         <h2>What Customers Say</h2>
       </header>
 
-      <div class="grid grid-3">
+      <div class="grid grid-3" data-reviews>
         <blockquote class="review">
           <div class="stars" aria-label="5 out of 5 stars">★★★★★</div>
           <p>"[Paste a real review from your Facebook or Instagram.]"</p>
@@ -384,8 +393,16 @@
       </a>
       <p>Shop, boat, and fleet detailing serving Battle Creek, Calhoun County, and Ann Arbor.</p>
       <div class="socials">
-        <a href="https://www.facebook.com/profile.php?id=61575607661183" target="_blank" rel="noopener" aria-label="Facebook">FB</a>
-        <a href="https://www.instagram.com/shinewithduckworth/" target="_blank" rel="noopener" aria-label="Instagram">IG</a>
+        <a href="https://www.facebook.com/profile.php?id=61575607661183" data-social="facebook" target="_blank" rel="noopener" aria-label="Facebook">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.879v-6.988h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.891h-2.33v6.988C18.343 21.128 22 16.991 22 12z"/>
+          </svg>
+        </a>
+        <a href="https://www.instagram.com/shinewithduckworth/" data-social="instagram" target="_blank" rel="noopener" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+          </svg>
+        </a>
       </div>
     </div>
 
@@ -430,8 +447,20 @@
   <a class="btn btn-primary" href="contact.html">Book</a>
 </div>
 
+<a class="floating-text" href="#" data-sms aria-label="Text us to book">
+  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/>
+  </svg>
+  Text Us
+</a>
+
+<script src="config/site.js"></script>
+<script src="config/pricing.js"></script>
+<script src="config/services.js"></script>
+<script src="config/content.js"></script>
 <script src="images.js"></script>
 <script src="assets/js/images-loader.js"></script>
+<script src="config/config-loader.js"></script>
 <script src="assets/js/main.js"></script>
 </body>
 </html>
