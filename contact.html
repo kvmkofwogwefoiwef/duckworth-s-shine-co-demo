@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Contact | DuckWorth's Shine Co. — Battle Creek, MI</title>
-<meta name="description" content="Book your mobile or shop detail with DuckWorth's Shine Co. in Battle Creek, MI. Text 517-781-1731 or message us on social.">
+<meta name="description" content="Book your shop, boat, or fleet detail with DuckWorth's Shine Co. in Battle Creek, MI. Text 517-781-1731 or message us on social.">
 <meta name="google-site-verification" content="YOUR_GOOGLE_VERIFICATION_CODE">
 <link rel="canonical" href="https://[DOMAIN]/contact.html">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -18,7 +18,7 @@
 <header class="site-header" id="siteHeader">
   <div class="wrap header-inner">
     <a class="brand" href="index.html">
-      <span class="brand-mark"><img src="assets/img/logo.png" alt="DuckWorth's Shine Co. logo"></span>
+      <span class="brand-mark"><img data-img="logo" alt="DuckWorth's Shine Co. logo" src="assets/img/placeholder-logo.png"></span>
       <span class="brand-text"><strong>DuckWorth's Shine Co.</strong><small>Battle Creek, MI</small></span>
     </a>
     <nav class="nav" id="primaryNav" aria-label="Primary">
@@ -27,9 +27,8 @@
         <li class="has-drop">
           <a href="services.html">Services <span class="caret" aria-hidden="true"></span></a>
           <ul class="drop">
-            <li><a href="services.html#mobile">Mobile Detailing</a></li>
             <li><a href="services.html#shop">Shop Detailing</a></li>
-            <li><a href="services.html#rim-tire">Rim &amp; Tire Detailing</a></li>
+            <li><a href="services.html#boat">Boat Detailing</a></li>
             <li><a href="services.html#fleet">Work Truck &amp; Fleet</a></li>
           </ul>
         </li>
@@ -106,11 +105,11 @@
 
           <div class="quote-builder" data-quote-builder>
             <h3>Build Your Quote</h3>
-            <p>Pick your vehicle type, service, condition, and any add-ons. We'll show you a
-              ballpark range — the exact price is confirmed after we see the vehicle.</p>
+            <p>Pick your vehicle or boat, service, and condition. We'll show you a
+              ballpark range — the exact price is confirmed after we see it in person.</p>
 
             <div class="qb-section">
-              <span class="qb-label">1. Vehicle Type</span>
+              <span class="qb-label">1. Vehicle or Boat Type</span>
               <div class="qb-options" id="qbVehicles">
                 <label class="qb-option">
                   <input type="radio" name="qb-vehicle" value="sedan" checked>
@@ -136,6 +135,22 @@
                   <input type="radio" name="qb-vehicle" value="fleet">
                   <span class="qb-option-text"><span>Work Truck / Fleet</span></span>
                 </label>
+                <label class="qb-option">
+                  <input type="radio" name="qb-vehicle" value="boatUnder18">
+                  <span class="qb-option-text"><span>Boat — Under 18 ft</span></span>
+                </label>
+                <label class="qb-option">
+                  <input type="radio" name="qb-vehicle" value="boat1824">
+                  <span class="qb-option-text"><span>Boat — 18 to 24 ft</span></span>
+                </label>
+                <label class="qb-option">
+                  <input type="radio" name="qb-vehicle" value="boat2530">
+                  <span class="qb-option-text"><span>Boat — 25 to 30 ft</span></span>
+                </label>
+                <label class="qb-option">
+                  <input type="radio" name="qb-vehicle" value="boat31">
+                  <span class="qb-option-text"><span>Boat — 31 ft and up</span></span>
+                </label>
               </div>
             </div>
 
@@ -145,7 +160,7 @@
             </div>
 
             <div class="qb-section">
-              <span class="qb-label">3. Vehicle Condition</span>
+              <span class="qb-label">3. Condition</span>
               <div class="qb-options" id="qbConditions">
                 <label class="qb-option">
                   <input type="radio" name="qb-condition" value="good">
@@ -166,11 +181,6 @@
               </div>
             </div>
 
-            <div class="qb-section">
-              <span class="qb-label">4. Add-Ons (Optional)</span>
-              <div class="qb-options" id="qbAddons"></div>
-            </div>
-
             <div class="qb-summary" id="qbSummary">
               <div class="qb-summary-label">Estimated Range</div>
               <div class="qb-summary-total" id="qbTotal">$0 <small>– $0</small></div>
@@ -184,15 +194,7 @@
             <p style="color:var(--muted);font-size:.9rem">Fields marked <span class="req">*</span> are required.
               Your quote estimate will be included automatically.</p>
 
-            <!--
-              TO ENABLE AUTO-EMAIL:
-              1. Sign up free at https://formspree.io
-              2. Create a new form
-              3. Copy your endpoint (looks like https://formspree.io/f/xyzabcd)
-              4. Replace action="#" below with your endpoint
-              5. Submit a test — it will land in your inbox instantly
-            -->
-            <form data-form action="#" method="POST" novalidate>
+            <form data-form action="send-mail.php" method="POST" novalidate>
 
               <div class="form-row two">
                 <div class="form-group">
@@ -215,8 +217,8 @@
 
               <div class="form-row two">
                 <div class="form-group">
-                  <label for="vehicle">Vehicle Year / Make / Model <span class="req">*</span></label>
-                  <input type="text" id="vehicle" name="vehicle" placeholder="2020 Honda CR-V" required>
+                  <label for="vehicle">Vehicle or Boat <span class="req">*</span></label>
+                  <input type="text" id="vehicle" name="vehicle" placeholder="2020 Honda CR-V or 22 ft Bowrider" required>
                   <span class="field-error"></span>
                 </div>
                 <div class="form-group">
@@ -229,9 +231,8 @@
                 <label for="service">Service Needed <span class="req">*</span></label>
                 <select id="service" name="service" required>
                   <option value="">Select a service…</option>
-                  <option>Mobile Detailing</option>
                   <option>Shop Detailing</option>
-                  <option>Rim &amp; Tire Detailing</option>
+                  <option>Boat Detailing</option>
                   <option>Work Truck / Commercial Fleet</option>
                   <option>Not Sure — Need a Recommendation</option>
                 </select>
@@ -244,8 +245,8 @@
               </div>
 
               <div class="form-group">
-                <label for="message">Tell Us About the Vehicle</label>
-                <textarea id="message" name="message" placeholder="Any stains, pet hair, scratches, odor, or anything else we should know?"></textarea>
+                <label for="message">Tell Us About It</label>
+                <textarea id="message" name="message" placeholder="Any stains, pet hair, scratches, odor, oxidation, or anything else we should know?"></textarea>
               </div>
 
               <div class="form-group">
@@ -274,10 +275,10 @@
   <div class="wrap footer-grid">
     <div class="footer-brand">
       <a class="brand" href="index.html">
-        <span class="brand-mark"><img src="assets/img/logo.png" alt="DuckWorth's Shine Co. logo"></span>
+        <span class="brand-mark"><img data-img="logo" alt="DuckWorth's Shine Co. logo" src="assets/img/placeholder-logo.png"></span>
         <span class="brand-text"><strong>DuckWorth's Shine Co.</strong><small>Battle Creek, MI</small></span>
       </a>
-      <p>Mobile and shop auto detailing serving Battle Creek and the greater Calhoun County area.</p>
+      <p>Shop, boat, and fleet detailing serving Battle Creek and the greater Calhoun County area.</p>
       <div class="socials">
         <a href="https://www.facebook.com/profile.php?id=61575607661183" target="_blank" rel="noopener" aria-label="Facebook">FB</a>
         <a href="https://www.instagram.com/shinewithduckworth/" target="_blank" rel="noopener" aria-label="Instagram">IG</a>
@@ -286,9 +287,8 @@
     <nav class="footer-col" aria-label="Services">
       <h3>Services</h3>
       <ul>
-        <li><a href="services.html#mobile">Mobile Detailing</a></li>
         <li><a href="services.html#shop">Shop Detailing</a></li>
-        <li><a href="services.html#rim-tire">Rim &amp; Tire Detailing</a></li>
+        <li><a href="services.html#boat">Boat Detailing</a></li>
         <li><a href="services.html#fleet">Work Truck &amp; Fleet</a></li>
       </ul>
     </nav>
@@ -324,6 +324,8 @@
   <a class="btn btn-primary" href="contact.html">Book</a>
 </div>
 
+<script src="images.js"></script>
+<script src="assets/js/images-loader.js"></script>
 <script src="assets/js/main.js"></script>
 <script src="assets/js/booking.js"></script>
 </body>

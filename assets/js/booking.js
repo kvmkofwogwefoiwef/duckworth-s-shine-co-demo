@@ -4,21 +4,18 @@
 (function () {
   'use strict';
 
-  const $  = (sel, ctx = document) => ctx.querySelector(sel);
-  const $$ = (sel, ctx = document) => Array.from(ctx.querySelectorAll(sel));
+  var $  = function (sel, ctx) { return (ctx || document).querySelector(sel); };
+  var $$ = function (sel, ctx) { return Array.prototype.slice.call((ctx || document).querySelectorAll(sel)); };
 
-  /* PRICING MODEL — edit numbers here AND on packages.html */
-  const VEHICLES = {
+  var VEHICLES = {
     sedan: {
       label: 'Sedan / Coupe',
       services: {
         express:  { label: 'Express (wash + vacuum)',          base: 80  },
         full:     { label: 'Full Detail (interior + exterior)',base: 180 },
         interior: { label: 'Interior Only',                    base: 130 },
-        exterior: { label: 'Exterior Only',                    base: 100 },
-        rims:     { label: 'Rim & Tire Only',                  base: 60  }
-      },
-      addons: { petHair: 15, odor: 25, engineBay: 30, wax: 25, undercarriage: 15 }
+        exterior: { label: 'Exterior Only',                    base: 100 }
+      }
     },
     midsuv: {
       label: 'Mid-size SUV / Crossover',
@@ -26,10 +23,8 @@
         express:  { label: 'Express (wash + vacuum)',          base: 100 },
         full:     { label: 'Full Detail (interior + exterior)',base: 220 },
         interior: { label: 'Interior Only',                    base: 160 },
-        exterior: { label: 'Exterior Only',                    base: 120 },
-        rims:     { label: 'Rim & Tire Only',                  base: 70  }
-      },
-      addons: { petHair: 20, odor: 30, engineBay: 35, wax: 30, undercarriage: 15 }
+        exterior: { label: 'Exterior Only',                    base: 120 }
+      }
     },
     fullsuv: {
       label: 'Full-size SUV / Minivan',
@@ -37,10 +32,8 @@
         express:  { label: 'Express (wash + vacuum)',          base: 130 },
         full:     { label: 'Full Detail (interior + exterior)',base: 280 },
         interior: { label: 'Interior Only',                    base: 200 },
-        exterior: { label: 'Exterior Only',                    base: 150 },
-        rims:     { label: 'Rim & Tire Only',                  base: 80  }
-      },
-      addons: { petHair: 25, odor: 35, engineBay: 40, wax: 35, undercarriage: 20 }
+        exterior: { label: 'Exterior Only',                    base: 150 }
+      }
     },
     truck: {
       label: 'Pickup Truck',
@@ -48,10 +41,8 @@
         express:  { label: 'Express (wash + vacuum)',          base: 120 },
         full:     { label: 'Full Detail (interior + exterior)',base: 250 },
         interior: { label: 'Interior Only',                    base: 175 },
-        exterior: { label: 'Exterior Only',                    base: 140 },
-        rims:     { label: 'Rim & Tire Only',                  base: 75  }
-      },
-      addons: { petHair: 20, odor: 30, engineBay: 35, wax: 30, undercarriage: 20 }
+        exterior: { label: 'Exterior Only',                    base: 140 }
+      }
     },
     hd: {
       label: 'Heavy Duty / Lifted Truck',
@@ -59,10 +50,8 @@
         express:  { label: 'Express (wash + vacuum)',          base: 160 },
         full:     { label: 'Full Detail (interior + exterior)',base: 340 },
         interior: { label: 'Interior Only',                    base: 220 },
-        exterior: { label: 'Exterior Only',                    base: 180 },
-        rims:     { label: 'Rim & Tire Only',                  base: 90  }
-      },
-      addons: { petHair: 25, odor: 40, engineBay: 45, wax: 40, undercarriage: 25 }
+        exterior: { label: 'Exterior Only',                    base: 180 }
+      }
     },
     fleet: {
       label: 'Work Truck / Fleet',
@@ -70,44 +59,70 @@
         express:  { label: 'Express (wash + vacuum)',          base: 140 },
         full:     { label: 'Full Detail (interior + exterior)',base: 300 },
         interior: { label: 'Interior Only',                    base: 200 },
-        exterior: { label: 'Exterior Only',                    base: 180 },
-        rims:     { label: 'Rim & Tire Only',                  base: 80  }
-      },
-      addons: { petHair: 20, odor: 35, engineBay: 45, wax: 35, undercarriage: 25 }
+        exterior: { label: 'Exterior Only',                    base: 180 }
+      }
+    },
+    boatUnder18: {
+      label: 'Boat — Under 18 ft',
+      services: {
+        express:  { label: 'Express Hull Wash',                base: 120 },
+        full:     { label: 'Full Boat Detail',                 base: 250 },
+        interior: { label: 'Interior / Cabin Only',            base: 175 },
+        exterior: { label: 'Hull Only',                        base: 150 }
+      }
+    },
+    boat1824: {
+      label: 'Boat — 18 to 24 ft',
+      services: {
+        express:  { label: 'Express Hull Wash',                base: 150 },
+        full:     { label: 'Full Boat Detail',                 base: 320 },
+        interior: { label: 'Interior / Cabin Only',            base: 225 },
+        exterior: { label: 'Hull Only',                        base: 190 }
+      }
+    },
+    boat2530: {
+      label: 'Boat — 25 to 30 ft',
+      services: {
+        express:  { label: 'Express Hull Wash',                base: 190 },
+        full:     { label: 'Full Boat Detail',                 base: 400 },
+        interior: { label: 'Interior / Cabin Only',            base: 280 },
+        exterior: { label: 'Hull Only',                        base: 240 }
+      }
+    },
+    boat31: {
+      label: 'Boat — 31 ft and up',
+      services: {
+        express:  { label: 'Express Hull Wash',                base: 250 },
+        full:     { label: 'Full Boat Detail',                 base: 520 },
+        interior: { label: 'Interior / Cabin Only',            base: 360 },
+        exterior: { label: 'Hull Only',                        base: 310 }
+      }
     }
   };
 
-  const CONDITIONS = {
+  var CONDITIONS = {
     good:    { label: 'Well-kept',                mult: 1.0  },
     average: { label: 'Daily driver, some dirt',  mult: 1.15 },
     rough:   { label: 'Rough — pet hair, stains', mult: 1.4  },
     severe:  { label: 'Heavy / neglected',        mult: 1.7  }
   };
 
-  const ADDON_LABELS = {
-    petHair:       'Pet hair removal',
-    odor:          'Odor treatment',
-    engineBay:     'Engine bay cleaning',
-    wax:           'Hand wax / sealant',
-    undercarriage: 'Undercarriage rinse'
-  };
-
-  const state = {
+  var state = {
     vehicle: 'sedan',
     service: 'full',
-    condition: 'average',
-    addons: new Set()
+    condition: 'average'
   };
 
   function renderServices() {
-    const container = $('#qbServices');
+    var container = $('#qbServices');
     if (!container) return;
 
-    const services = VEHICLES[state.vehicle].services;
+    var services = VEHICLES[state.vehicle].services;
     container.innerHTML = '';
 
-    Object.entries(services).forEach(([key, svc]) => {
-      const label = document.createElement('label');
+    Object.keys(services).forEach(function (key) {
+      var svc = services[key];
+      var label = document.createElement('label');
       label.className = 'qb-option';
       label.innerHTML =
         '<input type="radio" name="qb-service" value="' + key + '"' + (state.service === key ? ' checked' : '') + '>' +
@@ -115,121 +130,91 @@
           '<span>' + svc.label + '</span>' +
           '<span class="qb-option-price">from $' + svc.base + '</span>' +
         '</span>';
-      label.querySelector('input').addEventListener('change', () => {
-        state.service = key;
-        renderSummary();
-      });
-      container.appendChild(label);
-    });
-  }
-
-  function renderAddons() {
-    const container = $('#qbAddons');
-    if (!container) return;
-
-    const addons = VEHICLES[state.vehicle].addons;
-    container.innerHTML = '';
-
-    Object.entries(addons).forEach(([key, price]) => {
-      const label = document.createElement('label');
-      label.className = 'qb-option';
-      label.innerHTML =
-        '<input type="checkbox" name="qb-addon" value="' + key + '"' + (state.addons.has(key) ? ' checked' : '') + '>' +
-        '<span class="qb-option-text">' +
-          '<span>' + ADDON_LABELS[key] + '</span>' +
-          '<span class="qb-option-price">+$' + price + '</span>' +
-        '</span>';
-      label.querySelector('input').addEventListener('change', (e) => {
-        if (e.target.checked) state.addons.add(key);
-        else state.addons.delete(key);
-        renderSummary();
-      });
+      var input = label.querySelector('input');
+      if (input) {
+        input.addEventListener('change', function () {
+          state.service = key;
+          renderSummary();
+        });
+      }
       container.appendChild(label);
     });
   }
 
   function renderSummary() {
-    const totalEl  = $('#qbTotal');
-    const listEl   = $('#qbList');
-    const hiddenEl = $('#qbSummaryText');
+    var totalEl  = $('#qbTotal');
+    var listEl   = $('#qbList');
+    var hiddenEl = $('#qbSummaryText');
     if (!totalEl || !listEl) return;
 
-    const vehicle   = VEHICLES[state.vehicle];
-    const service   = vehicle.services[state.service];
-    const condition = CONDITIONS[state.condition];
+    var vehicle = VEHICLES[state.vehicle];
+    if (!vehicle) return;
+    var service = vehicle.services[state.service];
+    if (!service) return;
+    var condition = CONDITIONS[state.condition] || CONDITIONS.average;
 
-    const base      = service.base;
-    const conditionAdjusted = Math.round(base * condition.mult);
-    const addonsTotal = Array.from(state.addons)
-      .reduce((sum, key) => sum + (vehicle.addons[key] || 0), 0);
+    var base = service.base;
+    var conditionAdjusted = Math.round(base * condition.mult);
 
-    const subtotal = conditionAdjusted + addonsTotal;
-    const low      = Math.round(subtotal / 5) * 5;
-    const high     = Math.round((subtotal * 1.25) / 5) * 5;
+    var subtotal = conditionAdjusted;
+    var low      = Math.round(subtotal / 5) * 5;
+    var high     = Math.round((subtotal * 1.25) / 5) * 5;
 
     totalEl.innerHTML = '$' + low + '<small>– $' + high + '</small>';
 
     listEl.innerHTML = '';
 
-    const lines = [
-      ['Vehicle',           vehicle.label],
-      ['Service',           service.label],
-      ['Condition',         condition.label],
-      ['Base price',        '$' + conditionAdjusted]
+    var lines = [
+      ['Vehicle',    vehicle.label],
+      ['Service',    service.label],
+      ['Condition',  condition.label],
+      ['Base price', '$' + conditionAdjusted]
     ];
 
-    if (state.addons.size) {
-      Array.from(state.addons).forEach((key) => {
-        lines.push([ADDON_LABELS[key], '+$' + vehicle.addons[key]]);
-      });
-    }
-
-    lines.forEach(([label, value]) => {
-      const li = document.createElement('li');
-      li.innerHTML = '<span>' + label + '</span><span>' + value + '</span>';
+    lines.forEach(function (row) {
+      var li = document.createElement('li');
+      li.innerHTML = '<span>' + row[0] + '</span><span>' + row[1] + '</span>';
       listEl.appendChild(li);
     });
 
     if (hiddenEl) {
-      const addonText = state.addons.size
-        ? ' | Add-ons: ' + Array.from(state.addons).map((k) => ADDON_LABELS[k]).join(', ')
-        : '';
       hiddenEl.value =
         'Vehicle: ' + vehicle.label + ' | ' +
         'Service: ' + service.label + ' | ' +
         'Condition: ' + condition.label + ' | ' +
-        'Estimate: $' + low + '–$' + high +
-        addonText;
+        'Estimate: $' + low + '–$' + high;
     }
   }
 
   function init() {
-    const builder = $('[data-quote-builder]');
+    var builder = $('[data-quote-builder]');
     if (!builder) return;
 
-    $$('input[name="qb-vehicle"]', builder).forEach((input) => {
-      input.addEventListener('change', (e) => {
+    $$('input[name="qb-vehicle"]', builder).forEach(function (input) {
+      input.addEventListener('change', function (e) {
         state.vehicle = e.target.value;
-        state.addons.clear();
         renderServices();
-        renderAddons();
         renderSummary();
       });
     });
 
-    $$('input[name="qb-condition"]', builder).forEach((input) => {
-      input.addEventListener('change', (e) => {
+    $$('input[name="qb-condition"]', builder).forEach(function (input) {
+      input.addEventListener('change', function (e) {
         state.condition = e.target.value;
         renderSummary();
       });
     });
 
+    var checkedVehicle = $('input[name="qb-vehicle"]:checked', builder);
+    if (checkedVehicle) state.vehicle = checkedVehicle.value;
+    var checkedCondition = $('input[name="qb-condition"]:checked', builder);
+    if (checkedCondition) state.condition = checkedCondition.value;
+
     renderServices();
-    renderAddons();
     renderSummary();
 
     if (!$('#qbSummaryText')) {
-      const hidden = document.createElement('input');
+      var hidden = document.createElement('input');
       hidden.type = 'hidden';
       hidden.id = 'qbSummaryText';
       hidden.name = 'quote_estimate';
@@ -238,5 +223,9 @@
     }
   }
 
-  document.addEventListener('DOMContentLoaded', init);
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
 })();

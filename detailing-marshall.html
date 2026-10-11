@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Mobile Auto Detailing in Marshall, MI | DuckWorth's Shine Co.</title>
-<meta name="description" content="Mobile and shop auto detailing serving Marshall, MI. Work trucks, daily drivers, and fleets. Rim & tire detailing available. DM or text 517-781-1731.">
+<meta name="description" content="Mobile and shop auto detailing serving Marshall, MI. Cars, work trucks, boats, and fleets. DM or text 517-781-1731.">
 <meta name="google-site-verification" content="YOUR_GOOGLE_VERIFICATION_CODE">
 <link rel="canonical" href="https://[DOMAIN]/detailing-marshall.html">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -29,17 +29,26 @@
 <header class="site-header" id="siteHeader">
   <div class="wrap header-inner">
     <a class="brand" href="index.html">
-      <span class="brand-mark"><img src="assets/img/logo.png" alt="DuckWorth's Shine Co. logo"></span>
+      <span class="brand-mark"><img data-img="logo" alt="DuckWorth's Shine Co. logo" src="assets/img/placeholder-logo.png"></span>
       <span class="brand-text"><strong>DuckWorth's Shine Co.</strong><small>Battle Creek, MI</small></span>
     </a>
     <nav class="nav" id="primaryNav" aria-label="Primary">
       <ul class="nav-list">
         <li><a href="index.html">Home</a></li>
-        <li><a href="services.html">Services</a></li>
+        <li class="has-drop">
+          <a href="services.html">Services <span class="caret" aria-hidden="true"></span></a>
+          <ul class="drop">
+            <li><a href="services.html#mobile">Mobile Detailing</a></li>
+            <li><a href="services.html#shop">Shop Detailing</a></li>
+            <li><a href="services.html#boat">Boat Detailing</a></li>
+            <li><a href="services.html#fleet">Work Truck &amp; Fleet</a></li>
+          </ul>
+        </li>
         <li><a href="packages.html">Packages</a></li>
         <li><a href="gallery.html">Gallery</a></li>
         <li><a href="about.html">About</a></li>
-        <li><a href="contact.html">Contact</a></li>
+        <li><a href="reviews.html">Reviews</a></li>
+        <li><a href="faq.html">FAQ</a></li>
       </ul>
       <a class="btn btn-primary nav-cta" href="contact.html">Book Now</a>
     </nav>
@@ -81,13 +90,13 @@
       <ul style="padding-left:1.35rem;list-style:disc;color:var(--muted);display:flex;flex-direction:column;gap:.5rem;margin-bottom:1.3rem">
         <li><strong style="color:var(--text)">Mobile detailing</strong> — full interior and exterior service at your home or office</li>
         <li><strong style="color:var(--text)">Shop detailing</strong> — bring the vehicle to our Battle Creek facility</li>
-        <li><strong style="color:var(--text)">Rim &amp; tire detailing</strong> — brake dust removal, tire dressing, wheel deep-clean</li>
+        <li><strong style="color:var(--text)">Boat detailing</strong> — hull cleaning, oxidation removal, interior and cabin detail</li>
         <li><strong style="color:var(--text)">Work truck &amp; fleet detailing</strong> — heavy-duty cleaning for commercial vehicles</li>
       </ul>
 
       <div class="post-cta">
         <h3>Booking in Marshall</h3>
-        <p>Send us a text or DM with your vehicle details and location. We'll confirm availability
+        <p>Send us a text or DM with your vehicle or boat details and location. We'll confirm availability
           and give you a clear price before any work begins.</p>
         <a class="btn btn-primary btn-lg" href="#" data-sms>Text 517-781-1731</a>
         <a class="btn btn-outline btn-lg" href="contact.html">Full Contact Form</a>
@@ -101,7 +110,7 @@
   <div class="wrap footer-grid">
     <div class="footer-brand">
       <a class="brand" href="index.html">
-        <span class="brand-mark"><img src="assets/img/logo.png" alt="DuckWorth's Shine Co. logo"></span>
+        <span class="brand-mark"><img data-img="logo" alt="DuckWorth's Shine Co. logo" src="assets/img/placeholder-logo.png"></span>
         <span class="brand-text"><strong>DuckWorth's Shine Co.</strong><small>Battle Creek, MI</small></span>
       </a>
       <p>Mobile and shop auto detailing serving Battle Creek and the greater Calhoun County area.</p>
@@ -115,7 +124,7 @@
       <ul>
         <li><a href="services.html#mobile">Mobile Detailing</a></li>
         <li><a href="services.html#shop">Shop Detailing</a></li>
-        <li><a href="services.html#rim-tire">Rim &amp; Tire Detailing</a></li>
+        <li><a href="services.html#boat">Boat Detailing</a></li>
         <li><a href="services.html#fleet">Work Truck &amp; Fleet</a></li>
       </ul>
     </nav>
@@ -151,6 +160,8 @@
   <a class="btn btn-primary" href="contact.html">Book</a>
 </div>
 
+<script src="images.js"></script>
+<script src="assets/js/images-loader.js"></script>
 <script src="assets/js/main.js"></script>
 </body>
 </html>

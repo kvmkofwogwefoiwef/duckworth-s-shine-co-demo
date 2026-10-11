@@ -4,21 +4,17 @@
    ========================================================= */
 
 :root{
-  /* --- Surfaces --- */
   --bg:#080c0a;
   --bg-2:#0e1310;
   --bg-3:#131a16;
 
-  /* --- Borders --- */
   --line:#1b2620;
   --line-2:#28362e;
 
-  /* --- Text --- */
   --text:#eaf0eb;
   --muted:#9eada4;
   --muted-2:#6d7a72;
 
-  /* --- Brand palette (from logo) --- */
   --green:#146F1E;
   --green-light:#1e9c2b;
   --green-dark:#0d4a14;
@@ -28,7 +24,6 @@
   --teal:#065465;
   --teal-light:#0a7d95;
 
-  /* --- Accent aliases --- */
   --accent:#146F1E;
   --accent-2:#AC8B20;
   --accent-3:#065465;
@@ -39,12 +34,10 @@
   --accent-glow-2:rgba(172,139,32,.75);
   --on-accent:#0a1a0d;
 
-  /* --- Gradients --- */
   --grad-brand:linear-gradient(135deg,#065465 0%,#146F1E 45%,#AC8B20 100%);
   --grad-btn:linear-gradient(135deg,#146F1E 0%,#2c8a26 40%,#AC8B20 100%);
   --grad-glow:linear-gradient(135deg,rgba(20,111,30,.6),rgba(172,139,32,.55));
 
-  /* --- Shape / motion --- */
   --radius:16px;
   --radius-sm:10px;
   --radius-lg:22px;
@@ -57,7 +50,6 @@
   --ease:cubic-bezier(.22,.61,.36,1);
 }
 
-/* ---------- Reset ---------- */
 *,*::before,*::after{box-sizing:border-box}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
 body{
@@ -82,7 +74,6 @@ p{margin:0 0 1rem}
 address{font-style:normal}
 :focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:6px}
 
-/* ---------- Layout ---------- */
 .wrap{width:min(100% - 2.5rem,var(--wrap));margin-inline:auto}
 .section{padding:clamp(4rem,8vw,7rem) 0}
 .section-alt{background:var(--bg-2);border-block:1px solid var(--line)}
@@ -102,13 +93,11 @@ address{font-style:normal}
 }
 .lede{color:var(--muted);font-size:1.06rem;margin:0;line-height:1.7}
 
-/* ---------- Grids ---------- */
 .grid{display:grid;gap:1.4rem}
 .grid-2{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
 .grid-3{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
 .grid-4{grid-template-columns:repeat(auto-fit,minmax(215px,1fr))}
 
-/* ---------- Buttons ---------- */
 .btn{
   position:relative;overflow:hidden;
   display:inline-flex;align-items:center;justify-content:center;gap:.5rem;
@@ -146,7 +135,6 @@ address{font-style:normal}
 
 .btn-block{width:100%}
 
-/* ---------- Placeholder media (only shows if you leave .ph in place) ---------- */
 .ph{
   position:relative;overflow:hidden;
   background:
@@ -171,9 +159,6 @@ address{font-style:normal}
   text-align:left;
 }
 
-/* =========================================================
-   HEADER
-   ========================================================= */
 .site-header{
   position:sticky;top:0;z-index:100;
   background:rgba(8,12,10,.75);
@@ -207,7 +192,6 @@ address{font-style:normal}
 .brand-text strong{font-family:var(--font-head);font-size:1.02rem;font-weight:800;letter-spacing:-.01em}
 .brand-text small{font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted-2)}
 
-/* ---------- Nav ---------- */
 .nav{display:flex;align-items:center;gap:1.5rem}
 .nav-list{display:flex;align-items:center;gap:.25rem}
 .nav-list > li{position:relative}
@@ -243,7 +227,6 @@ address{font-style:normal}
 
 .nav-cta{padding:.62rem 1.3rem;font-size:.84rem}
 
-/* ---------- Mobile toggle ---------- */
 .nav-toggle{
   display:none;width:44px;height:44px;border-radius:10px;
   border:1px solid var(--line);flex-direction:column;
@@ -257,16 +240,12 @@ address{font-style:normal}
 .nav-toggle[aria-expanded="true"] span:nth-child(2){opacity:0}
 .nav-toggle[aria-expanded="true"] span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
 
-/* =========================================================
-   HERO
-   ========================================================= */
 .hero{
   position:relative;min-height:clamp(580px,88vh,840px);
   display:flex;align-items:center;overflow:hidden;
 }
-.hero-media{position:absolute;inset:0;border-radius:0}
+.hero-media{position:absolute;inset:0;border-radius:0;background-size:cover;background-position:center;background-repeat:no-repeat}
 .hero-media img{width:100%;height:100%;object-fit:cover}
-.hero-media::before{inset:-30% -50%}
 .hero-scrim{
   position:absolute;inset:0;
   background:
@@ -284,7 +263,6 @@ address{font-style:normal}
 .hero-trust li{font-size:.83rem;color:var(--muted);display:flex;align-items:baseline;gap:.5rem}
 .hero-trust strong{font-family:var(--font-head);font-size:1.15rem;color:var(--gold);font-weight:800}
 
-/* ---------- Page hero ---------- */
 .page-hero{
   position:relative;padding:clamp(3.75rem,7.5vw,5.75rem) 0 clamp(2.75rem,5.5vw,4.25rem);
   background:
@@ -300,17 +278,11 @@ address{font-style:normal}
 .breadcrumb li::after{content:'/';margin-left:.45rem;opacity:.45}
 .breadcrumb li:last-child::after{content:''}
 
-/* =========================================================
-   TRUST BAR
-   ========================================================= */
 .trustbar{background:var(--bg-2);border-block:1px solid var(--line)}
 .trustbar-inner{display:flex;flex-wrap:wrap;justify-content:space-between;gap:1rem 2rem;padding:1.2rem 0}
 .trust-item{display:flex;align-items:center;gap:.6rem;font-size:.8rem;color:var(--muted);font-weight:500}
 .dot{width:6px;height:6px;border-radius:50%;background:var(--green);flex:0 0 6px;box-shadow:0 0 0 4px var(--accent-soft)}
 
-/* =========================================================
-   WHAT TO EXPECT
-   ========================================================= */
 .expect-strip{
   display:grid;gap:1.25rem;
   grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
@@ -337,9 +309,6 @@ address{font-style:normal}
 }
 .expect-item p{margin:0;font-size:.83rem;color:var(--muted);line-height:1.6}
 
-/* =========================================================
-   ANIMATED STATS
-   ========================================================= */
 .stats-strip{
   display:grid;gap:1.5rem;
   grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
@@ -355,9 +324,6 @@ address{font-style:normal}
   text-transform:uppercase;color:var(--muted-2);
 }
 
-/* =========================================================
-   CARDS
-   ========================================================= */
 .card{
   position:relative;display:flex;flex-direction:column;
   background:linear-gradient(180deg,var(--bg-3),var(--bg-2));
@@ -383,7 +349,6 @@ address{font-style:normal}
 }
 .card:hover .card-cta{transform:translateX(4px)}
 
-/* ---------- Feature blocks ---------- */
 .feature{
   background:var(--bg-2);border:1px solid var(--line);border-radius:var(--radius);
   padding:1.7rem 1.6rem;
@@ -397,9 +362,6 @@ address{font-style:normal}
 .feature h3{font-size:1.05rem;margin-bottom:.45rem}
 .feature p{color:var(--muted);font-size:.88rem;margin:0;line-height:1.65}
 
-/* =========================================================
-   BEFORE / AFTER SLIDER
-   ========================================================= */
 .ba-wrap{max-width:960px;margin-inline:auto}
 .ba{
   --pos:50%;
@@ -439,9 +401,6 @@ address{font-style:normal}
 }
 .ba-caption{text-align:center;color:var(--muted-2);font-size:.8rem;margin-top:1.15rem}
 
-/* =========================================================
-   REVIEWS
-   ========================================================= */
 .review{
   margin:0;background:var(--bg-2);border:1px solid var(--line);
   border-radius:var(--radius-lg);padding:1.7rem 1.7rem 1.4rem;
@@ -456,9 +415,6 @@ address{font-style:normal}
 .review footer strong{font-family:var(--font-head);font-size:.9rem}
 .review footer span{font-size:.76rem;color:var(--muted-2)}
 
-/* =========================================================
-   CTA BAND
-   ========================================================= */
 .cta-band{
   position:relative;overflow:hidden;
   background:
@@ -477,9 +433,6 @@ address{font-style:normal}
 .cta-inner p{color:var(--muted);margin:0;max-width:560px}
 .cta-actions{display:flex;flex-wrap:wrap;gap:.85rem}
 
-/* =========================================================
-   LOCATION
-   ========================================================= */
 .location-grid{display:grid;gap:2.75rem;grid-template-columns:1fr;align-items:start}
 @media(min-width:880px){.location-grid{grid-template-columns:1fr 1.15fr}}
 .address{font-size:1.08rem;line-height:1.8;color:#c8d4cc;margin-bottom:1.5rem}
@@ -489,9 +442,6 @@ address{font-style:normal}
 .map-embed{border-radius:var(--radius-lg);overflow:hidden;border:1px solid var(--line);min-height:360px;background:var(--bg-3)}
 .map-embed iframe{width:100%;height:100%;min-height:360px;border:0;filter:grayscale(.35) contrast(1.08)}
 
-/* =========================================================
-   SERVICE AREA
-   ========================================================= */
 .area-list{
   display:flex;flex-wrap:wrap;gap:.55rem;
   margin-top:1.1rem;
@@ -505,9 +455,6 @@ address{font-style:normal}
 .area-list li:hover{border-color:var(--green);color:var(--gold)}
 .area-list a{color:inherit}
 
-/* =========================================================
-   QUOTE BUILDER
-   ========================================================= */
 .quote-builder{
   background:var(--bg-2);border:1px solid var(--line);
   border-radius:var(--radius-lg);padding:clamp(1.5rem,3vw,2.2rem);
@@ -521,12 +468,8 @@ address{font-style:normal}
     radial-gradient(400px 200px at 0% 100%,rgba(20,111,30,.12),transparent 70%);
 }
 .quote-builder > *{position:relative;z-index:1}
-.quote-builder h3{
-  font-size:1.15rem;margin-bottom:.35rem;
-}
-.quote-builder > p{
-  font-size:.87rem;color:var(--muted);margin-bottom:1.5rem;
-}
+.quote-builder h3{font-size:1.15rem;margin-bottom:.35rem}
+.quote-builder > p{font-size:.87rem;color:var(--muted);margin-bottom:1.5rem}
 .qb-section{margin-bottom:1.5rem}
 .qb-section:last-of-type{margin-bottom:0}
 .qb-label{
@@ -612,9 +555,6 @@ address{font-style:normal}
 .qb-summary-list span:last-child{color:var(--text);font-weight:500}
 .qb-summary p{margin:.6rem 0 0;font-size:.78rem;color:var(--muted-2);line-height:1.6}
 
-/* =========================================================
-   PRICING
-   ========================================================= */
 .price-grid{display:grid;gap:1.5rem;grid-template-columns:repeat(auto-fit,minmax(265px,1fr));align-items:stretch}
 .price-card{
   position:relative;display:flex;flex-direction:column;
@@ -647,7 +587,6 @@ address{font-style:normal}
   background:var(--accent-soft);border:2px solid var(--green);
 }
 
-/* ---------- Comparison table ---------- */
 .table-scroll{overflow-x:auto;border:1px solid var(--line);border-radius:var(--radius-lg);background:var(--bg-2)}
 table.compare{width:100%;border-collapse:collapse;min-width:640px;font-size:.87rem}
 table.compare th,table.compare td{padding:1rem 1.15rem;text-align:left;border-bottom:1px solid var(--line)}
@@ -661,9 +600,6 @@ table.compare td:first-child{color:var(--text);font-weight:500}
 table.compare td{color:var(--muted)}
 .tick{color:var(--gold);font-weight:700}
 
-/* =========================================================
-   GALLERY
-   ========================================================= */
 .filters{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:2.25rem}
 .filter-btn{
   padding:.52rem 1.1rem;border-radius:999px;border:1px solid var(--line-2);
@@ -690,7 +626,6 @@ table.compare td{color:var(--muted)}
   background:linear-gradient(to top,rgba(0,0,0,.85),transparent);
 }
 
-/* ---------- Lightbox ---------- */
 .lightbox{
   position:fixed;inset:0;z-index:300;display:grid;place-items:center;padding:1.5rem;
   background:rgba(5,8,6,.95);backdrop-filter:blur(8px);
@@ -708,9 +643,6 @@ table.compare td{color:var(--muted)}
 }
 .lightbox-close:hover{background:var(--green);border-color:var(--green);color:#fff}
 
-/* =========================================================
-   ACCORDION
-   ========================================================= */
 .accordion{display:flex;flex-direction:column;gap:.7rem}
 .accordion-item{background:var(--bg-2);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;transition:border-color .25s,background .25s}
 .accordion-item:hover{border-color:var(--line-2)}
@@ -737,9 +669,6 @@ table.compare td{color:var(--muted)}
 .accordion-panel-inner li{margin-bottom:.4rem}
 .accordion-panel-inner a{color:var(--gold)}
 
-/* =========================================================
-   FORMS
-   ========================================================= */
 .form-card{background:var(--bg-2);border:1px solid var(--line);border-radius:var(--radius-lg);padding:clamp(1.6rem,3vw,2.5rem)}
 .form-row{display:grid;gap:1rem;grid-template-columns:1fr}
 @media(min-width:620px){.form-row.two{grid-template-columns:1fr 1fr}}
@@ -774,9 +703,6 @@ input[aria-invalid="true"],select[aria-invalid="true"],textarea[aria-invalid="tr
 .checkbox-row{display:flex;gap:.7rem;align-items:flex-start;font-size:.82rem;color:var(--muted);line-height:1.6}
 .checkbox-row input{width:auto;flex:0 0 auto;margin-top:.3rem;accent-color:var(--green)}
 
-/* =========================================================
-   STEPS
-   ========================================================= */
 .steps{display:grid;gap:1.3rem;counter-reset:step}
 @media(min-width:760px){.steps{grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}}
 .step{position:relative;padding-top:2.75rem;counter-increment:step}
@@ -790,9 +716,6 @@ input[aria-invalid="true"],select[aria-invalid="true"],textarea[aria-invalid="tr
 .step h3{font-size:1rem;margin-bottom:.45rem}
 .step p{color:var(--muted);font-size:.87rem;margin:0;line-height:1.65}
 
-/* =========================================================
-   FOOTER
-   ========================================================= */
 .site-footer{background:var(--bg-2);border-top:1px solid var(--line);padding-top:clamp(3rem,6vw,4.5rem)}
 .footer-grid{display:grid;gap:2.5rem;grid-template-columns:1fr;padding-bottom:3rem}
 @media(min-width:700px){.footer-grid{grid-template-columns:1.6fr 1fr 1fr}}
@@ -824,9 +747,6 @@ input[aria-invalid="true"],select[aria-invalid="true"],textarea[aria-invalid="tr
 .footer-bottom p{margin:0}
 .footer-bottom a:hover{color:var(--gold)}
 
-/* =========================================================
-   MOBILE STICKY CTA
-   ========================================================= */
 .mobile-cta{
   position:fixed;bottom:0;left:0;right:0;z-index:90;
   display:none;gap:.65rem;padding:.75rem 1rem calc(.75rem + env(safe-area-inset-bottom));
@@ -834,15 +754,20 @@ input[aria-invalid="true"],select[aria-invalid="true"],textarea[aria-invalid="tr
 }
 .mobile-cta .btn{flex:1}
 
-/* =========================================================
-   REVEAL
-   ========================================================= */
 [data-reveal]{opacity:0;transform:translateY(24px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
 [data-reveal].is-visible{opacity:1;transform:none}
 
 /* =========================================================
-   RESPONSIVE
+   POST CTA (used on location pages)
    ========================================================= */
+.post-cta{
+  margin:3rem 0 1rem;padding:1.75rem;
+  background:var(--bg-2);border:1px solid var(--line);
+  border-radius:var(--radius-lg);text-align:center;
+}
+.post-cta h3{margin-bottom:.6rem;font-size:1.15rem}
+.post-cta p{color:var(--muted);font-size:.9rem;margin-bottom:1.25rem}
+
 @media(max-width:1000px){
   .nav-toggle{display:flex}
   .nav{
