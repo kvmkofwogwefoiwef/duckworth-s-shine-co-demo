@@ -5,8 +5,6 @@
 (function () {
   'use strict';
 
-  function $(sel) { return document.querySelector(sel); }
-
   function getAllVehicles() {
     if (typeof PRICING === 'undefined') return {};
     var all = {};

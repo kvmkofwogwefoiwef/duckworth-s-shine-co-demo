@@ -26,9 +26,15 @@
     var v = vehicles[state.vehicle];
     if (!v) return;
 
+    var available = Object.keys(v.services);
+    // If the current selected service isn't available for this vehicle, use the first one
+    if (available.indexOf(state.service) === -1) {
+      state.service = available[0];
+    }
+
     container.innerHTML = '';
 
-    Object.keys(v.services).forEach(function (key) {
+    available.forEach(function (key) {
       var svc = v.services[key];
       var label = document.createElement('label');
       label.className = 'qb-option';
@@ -37,7 +43,7 @@
           (state.service === key ? ' checked' : '') + '>' +
         '<span class="qb-option-text">' +
           '<span>' + svc.label + '</span>' +
-          '<span class="qb-option-price">from $' + svc.price + '</span>' +
+          '<span class="qb-option-price">$' + svc.price + '</span>' +
         '</span>';
       var input = label.querySelector('input');
       if (input) {
@@ -72,10 +78,10 @@
 
     listEl.innerHTML = '';
     [
-      ['Vehicle',   v.label],
-      ['Service',   svc.label],
-      ['Condition', cond.label],
-      ['Base price','$' + adjusted]
+      ['Vehicle',    v.label],
+      ['Service',    svc.label],
+      ['Condition',  cond.label],
+      ['Base price', '$' + adjusted]
     ].forEach(function (row) {
       var li = document.createElement('li');
       li.innerHTML = '<span>' + row[0] + '</span><span>' + row[1] + '</span>';

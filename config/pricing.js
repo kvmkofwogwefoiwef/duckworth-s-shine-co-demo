@@ -1,72 +1,65 @@
 /* =========================================================
    DuckWorth's Shine Co. — Pricing
-   Edit prices here. Everything updates automatically.
+   =========================================================
+
+   Edit prices here. Everything updates automatically:
+   - The quote builder on the contact page
+   - The mini quote builder on the packages page
+   - The pricing tables on the packages page
+
+   IMPORTANT: Only edit the numbers after "price:", not the
+   structure. Prices are in USD. They're just numbers —
+   no "$" needed (the site adds it).
    ========================================================= */
 
 const PRICING = {
 
+  /* ---------------------------------------------------------
+     VEHICLES — Real prices from the shop
+     --------------------------------------------------------- */
   vehicles: {
     sedan: {
       label: "Sedan / Coupe",
       services: {
-        express:  { label: "Express",         price: 80  },
-        full:     { label: "Full Detail",     price: 180 },
-        interior: { label: "Interior Only",   price: 130 },
-        exterior: { label: "Exterior Only",   price: 100 }
+        full:     { label: "Full Detail (interior + exterior)", price: 140 },
+        interior: { label: "Interior Only",                     price: 100 },
+        exterior: { label: "Exterior Only",                     price: 60  }
       }
     },
-    midsuv: {
-      label: "Mid-size SUV",
+    suv: {
+      label: "SUV / Crossover",
       services: {
-        express:  { label: "Express",         price: 100 },
-        full:     { label: "Full Detail",     price: 220 },
-        interior: { label: "Interior Only",   price: 160 },
-        exterior: { label: "Exterior Only",   price: 120 }
+        full:     { label: "Full Detail (interior + exterior)", price: 200 },
+        interior: { label: "Interior Only",                     price: 150 },
+        exterior: { label: "Exterior Only",                     price: 70  }
       }
     },
-    fullsuv: {
-      label: "Full-size SUV / Van",
+    truckvan: {
+      label: "Truck / Mini Van",
       services: {
-        express:  { label: "Express",         price: 130 },
-        full:     { label: "Full Detail",     price: 280 },
-        interior: { label: "Interior Only",   price: 200 },
-        exterior: { label: "Exterior Only",   price: 150 }
+        full:     { label: "Full Detail (interior + exterior)", price: 250 },
+        interior: { label: "Interior Only",                     price: 175 },
+        exterior: { label: "Exterior Only",                     price: 90  }
       }
     },
-    truck: {
-      label: "Pickup Truck",
+    threeRow: {
+      label: "3-Row SUV / Van",
       services: {
-        express:  { label: "Express",         price: 120 },
-        full:     { label: "Full Detail",     price: 250 },
-        interior: { label: "Interior Only",   price: 175 },
-        exterior: { label: "Exterior Only",   price: 140 }
-      }
-    },
-    hd: {
-      label: "Heavy Duty / Lifted",
-      services: {
-        express:  { label: "Express",         price: 160 },
-        full:     { label: "Full Detail",     price: 340 },
-        interior: { label: "Interior Only",   price: 220 },
-        exterior: { label: "Exterior Only",   price: 180 }
-      }
-    },
-    fleet: {
-      label: "Work Truck / Fleet",
-      services: {
-        express:  { label: "Express",         price: 140 },
-        full:     { label: "Full Detail",     price: 300 },
-        interior: { label: "Interior Only",   price: 200 },
-        exterior: { label: "Exterior Only",   price: 180 }
+        full:     { label: "Full Detail (interior + exterior)", price: 300 },
+        interior: { label: "Interior Only",                     price: 205 },
+        exterior: { label: "Exterior Only",                     price: 110 }
       }
     }
   },
 
+  /* ---------------------------------------------------------
+     BOATS — Placeholder prices
+     Update these once you have real boat pricing.
+     --------------------------------------------------------- */
   boats: {
     boatUnder18: {
       label: "Boat — Under 18 ft",
       services: {
-        express:  { label: "Express Hull Wash", price: 120 },
         full:     { label: "Full Boat Detail",  price: 250 },
         interior: { label: "Interior / Cabin",  price: 175 },
         exterior: { label: "Hull Only",         price: 150 }
@@ -75,7 +68,6 @@ const PRICING = {
     boat1824: {
       label: "Boat — 18 to 24 ft",
       services: {
-        express:  { label: "Express Hull Wash", price: 150 },
         full:     { label: "Full Boat Detail",  price: 320 },
         interior: { label: "Interior / Cabin",  price: 225 },
         exterior: { label: "Hull Only",         price: 190 }
@@ -84,7 +76,6 @@ const PRICING = {
     boat2530: {
       label: "Boat — 25 to 30 ft",
       services: {
-        express:  { label: "Express Hull Wash", price: 190 },
         full:     { label: "Full Boat Detail",  price: 400 },
         interior: { label: "Interior / Cabin",  price: 280 },
         exterior: { label: "Hull Only",         price: 240 }
@@ -93,7 +84,6 @@ const PRICING = {
     boat31: {
       label: "Boat — 31 ft and up",
       services: {
-        express:  { label: "Express Hull Wash", price: 250 },
         full:     { label: "Full Boat Detail",  price: 520 },
         interior: { label: "Interior / Cabin",  price: 360 },
         exterior: { label: "Hull Only",         price: 310 }
@@ -101,6 +91,10 @@ const PRICING = {
     }
   },
 
+  /* ---------------------------------------------------------
+     CONDITION MULTIPLIERS
+     Applies to the base price based on vehicle condition.
+     --------------------------------------------------------- */
   conditions: {
     good:    { label: "Well-kept",                multiplier: 1.0  },
     average: { label: "Daily driver, some dirt",  multiplier: 1.15 },
@@ -108,7 +102,18 @@ const PRICING = {
     severe:  { label: "Heavy / neglected",        multiplier: 1.7  }
   },
 
+  /* ---------------------------------------------------------
+     QUOTE RANGE
+     Range shown = base price × this multiplier (upper bound)
+     --------------------------------------------------------- */
   rangeUpperMultiplier: 1.25,
 
-  conditionNote: "Rough condition (pet hair, heavy stains, odor) typically adds 15–70% depending on severity. We'll always confirm the final price before starting work."
+  /* ---------------------------------------------------------
+     MESSAGES
+     --------------------------------------------------------- */
+  conditionNote: "Rough condition (pet hair, heavy stains, odor) typically adds 15–70% depending on severity. We'll always confirm the final price before starting work.",
+
+  boatNote: "Boats with heavy oxidation, barnacle buildup, or waterline stains may need extra labor; we'll confirm before starting.",
+
+  fleetNote: "Fleet pricing is quoted per project based on fleet size and vehicle type. Message us for a custom quote."
 };
