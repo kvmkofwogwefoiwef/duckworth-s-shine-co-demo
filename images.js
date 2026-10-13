@@ -10,7 +10,7 @@ const SITE_IMAGES = {
   "beforeAfterAfter":  "assets/img/placeholder.jpg",
 
   "serviceVehicle": "assets/img/placeholder.jpg",
-  "serviceBoat":    "assets/img/placeholder.jpg",
+  "serviceBoat":    "assets/img/boat_detail.png",
   "serviceFleet":   "assets/img/placeholder.jpg",
 
   "teamDean":      "assets/img/placeholder.jpg",
@@ -18,7 +18,7 @@ const SITE_IMAGES = {
 
   /* SERVICES PAGE */
   "servicesVehicle": "assets/img/placeholder.jpg",
-  "servicesBoat":    "assets/img/placeholder.jpg",
+  "servicesBoat":    "assets/img/boat_detail.png",
   "servicesFleet":   "assets/img/placeholder.jpg",
 
   /* SERVICES PAGE MINI GALLERIES */
@@ -36,7 +36,7 @@ const SITE_IMAGES = {
   "fleetGallery4":   "assets/img/placeholder.jpg",
 
   /* ABOUT PAGE */
-  "aboutStudio": "assets/img/placeholder.jpg",
+  "aboutStudio": "assets/img/shop_interior.png",
 
   /* GALLERY PAGE */
   "gallery1": "assets/img/placeholder.jpg",

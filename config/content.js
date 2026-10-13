@@ -22,7 +22,7 @@ const CONTENT = {
   stats: [
     { value: 50,  suffix: "+",    label: "Vehicles Detailed" },
     { value: 100, suffix: "+ mi", label: "Service Radius" },
-    { value: 100, suffix: "%",    label: "Owner-Operated" }
+    { value: 80, suffix: "%",    label: "Owner-Operated" }
   ],
 
   owners: [

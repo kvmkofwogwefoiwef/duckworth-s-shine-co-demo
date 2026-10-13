@@ -83,8 +83,8 @@ const PRICING = {
   conditions: {
     good:    { label: "Well-kept",                multiplier: 1.0  },
     average: { label: "Daily driver, some dirt",  multiplier: 1.15 },
-    rough:   { label: "Rough — pet hair, stains", multiplier: 1.4  },
-    severe:  { label: "Heavy / neglected",        multiplier: 1.7  }
+    rough:   { label: "Rough — pet hair, stains", multiplier: 1.2  },
+    severe:  { label: "Heavy / neglected",        multiplier: 1.4  }
   },
 
   rangeUpperMultiplier: 1.25,
