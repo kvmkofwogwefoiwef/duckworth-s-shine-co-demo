@@ -43,9 +43,7 @@ const SITE_INFO = {
     { name: "Springfield", url: "detailing-springfield.html" },
     { name: "Ann Arbor",   url: "detailing-ann-arbor.html" },
     { name: "Portage",     url: null },
-    { name: "Jackson",     url: null },
-    { name: "Athens",      url: null},
-    { name: "Climax",      url: null},
+    { name: "Jackson",     url: null }
   ],
 
   serviceRadiusLabel: "Calhoun County & Ann Arbor"

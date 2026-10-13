@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Staff Dashboard | DuckWorth's Shine Co.</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/styles.css">
+<style>
+  .dash-header{
+    display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;
+    gap:1rem;margin-bottom:2.5rem;
+  }
+  .dash-header h1{font-size:1.75rem;margin:0}
+  .dash-actions{display:flex;flex-wrap:wrap;gap:.65rem}
+  .dash-grid{display:grid;grid-template-columns:1fr;gap:1.25rem}
+  @media(min-width:900px){.dash-grid{grid-template-columns:1.4fr 1fr}}
+  .dash-list{display:flex;flex-direction:column;gap:1rem}
+  .job-card{
+    background:var(--bg-2);border:1px solid var(--line);
+    border-radius:var(--radius);padding:1.25rem 1.4rem;cursor:pointer;
+    transition:border-color .2s,background .2s;
+  }
+  .job-card:hover{border-color:var(--gold);background:var(--bg-3)}
+  .job-card.is-selected{border-color:var(--green);background:linear-gradient(180deg,rgba(20,111,30,.08),var(--bg-2))}
+  .job-card-top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:.5rem;margin-bottom:.5rem}
+  .job-card-name{font-family:var(--font-head);font-weight:700;font-size:1rem}
+  .job-card-status{
+    font-size:.7rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+    padding:.25rem .7rem;border-radius:999px;
+  }
+  .job-card-status.is-active{background:rgba(20,111,30,.15);color:var(--green-light);border:1px solid rgba(20,111,30,.4)}
+  .job-card-status.is-done{background:rgba(109,122,114,.15);color:var(--muted-2);border:1px solid var(--line-2)}
+  .job-card-meta{font-size:.82rem;color:var(--muted);line-height:1.55}
+  .job-card-progress{
+    margin-top:.75rem;height:4px;background:var(--bg);border-radius:2px;overflow:hidden;
+  }
+  .job-card-progress-bar{height:100%;background:var(--green);width:0%;transition:width .3s}
+
+  .edit-panel{
+    background:var(--bg-2);border:1px solid var(--line);
+    border-radius:var(--radius-lg);padding:clamp(1.5rem,3vw,2rem);
+    position:sticky;top:calc(var(--header-h) + 1.5rem);
+  }
+  .edit-panel h2{font-size:1.15rem;margin-bottom:1.5rem}
+  .edit-panel .form-group label{font-size:.75rem}
+  .steps-editor{display:flex;flex-direction:column;gap:.6rem;margin-bottom:1.25rem}
+  .step-row{
+    display:flex;align-items:center;gap:.75rem;
+    background:var(--bg-3);border:1px solid var(--line-2);
+    border-radius:var(--radius-sm);padding:.65rem .85rem;
+  }
+  .step-row input[type="checkbox"]{
+    width:18px;height:18px;accent-color:var(--green);cursor:pointer;flex-shrink:0;
+  }
+  .step-row input[type="text"]{
+    flex:1;background:transparent;border:0;padding:.25rem 0;
+    font-size:.85rem;color:var(--text);
+  }
+  .step-row input[type="text"]:focus{outline:none}
+  .step-remove{
+    background:none;border:0;color:var(--muted-2);
+    font-size:1.1rem;line-height:1;padding:.2rem;cursor:pointer;
+  }
+  .step-remove:hover{color:#f0745f}
+  .add-step-btn{
+    display:inline-flex;align-items:center;gap:.4rem;
+    font-size:.8rem;color:var(--gold);margin-bottom:1.5rem;
+    background:none;border:0;cursor:pointer;
+  }
+  .panel-actions{display:flex;flex-wrap:wrap;gap:.65rem;margin-top:1.5rem}
+  .panel-empty{text-align:center;padding:3rem 1rem;color:var(--muted)}
+  .empty-icon{font-size:2rem;margin-bottom:.75rem;opacity:.5}
+  .photo-upload{
+    margin-top:1.25rem;padding-top:1.25rem;border-top:1px solid var(--line);
+  }
+  .photo-preview{display:grid;grid-template-columns:repeat(auto-fill,minmax(80px,1fr));gap:.5rem;margin-top:.75rem}
+  .photo-thumb{
+    position:relative;aspect-ratio:1;border-radius:var(--radius-sm);
+    overflow:hidden;border:1px solid var(--line);
+  }
+  .photo-thumb img{width:100%;height:100%;object-fit:cover}
+  .photo-thumb button{
+    position:absolute;top:.25rem;right:.25rem;
+    background:rgba(0,0,0,.7);color:#fff;border:0;border-radius:50%;
+    width:22px;height:22px;font-size:.9rem;line-height:1;cursor:pointer;
+  }
+  .file-input{
+    display:block;width:100%;padding:.7rem .85rem;
+    background:var(--bg);border:1px dashed var(--line-2);
+    border-radius:var(--radius-sm);color:var(--muted);
+    font-size:.82rem;cursor:pointer;
+  }
+  .file-input:hover{border-color:var(--gold)}
+  .toast{
+    position:fixed;bottom:2rem;right:2rem;z-index:200;
+    background:var(--green);color:#fff;padding:.85rem 1.25rem;
+    border-radius:var(--radius-sm);font-size:.87rem;font-weight:500;
+    box-shadow:var(--shadow);opacity:0;transform:translateY(20px);
+    transition:opacity .3s,transform .3s;pointer-events:none;
+  }
+  .toast.is-visible{opacity:1;transform:translateY(0)}
+  .toast.is-error{background:#c0392b}
+  .new-job-form{display:none;margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid var(--line)}
+  .new-job-form.is-open{display:block}
+</style>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header" id="siteHeader">
+  <div class="wrap header-inner">
+    <a class="brand" href="index.html">
+      <span class="brand-mark"><img data-img="logo" alt="DuckWorth's Shine Co. logo" src="assets/img/placeholder-logo.png"></span>
+      <span class="brand-text">
+        <strong>DuckWorth's Shine Co.</strong>
+        <small>Staff Dashboard</small>
+      </span>
+    </a>
+    <div style="display:flex;gap:.75rem;align-items:center">
+      <a class="btn btn-outline" href="status.html" style="font-size:.82rem">Customer View</a>
+      <button class="btn btn-ghost" type="button" id="logoutBtn" style="font-size:.82rem">Log Out</button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+  <section class="section">
+    <div class="wrap">
+
+      <div class="dash-header">
+        <div>
+          <p class="eyebrow" style="margin-bottom:.35rem">Staff Dashboard</p>
+          <h1>Manage Jobs</h1>
+        </div>
+        <div class="dash-actions">
+          <button class="btn btn-primary" type="button" id="newJobBtn">+ New Job</button>
+        </div>
+      </div>
+
+      <div class="dash-grid">
+        <!-- JOBS LIST -->
+        <div>
+          <div class="dash-list" id="jobsList">
+            <div class="panel-empty">
+              <div class="empty-icon">📋</div>
+              <p>Loading jobs…</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- EDIT PANEL -->
+        <div>
+          <div class="edit-panel" id="editPanel">
+            <div class="panel-empty" id="editEmpty">
+              <div class="empty-icon">👈</div>
+              <p>Select a job to edit its status, or create a new one.</p>
+            </div>
+            <div id="editForm" style="display:none"></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap footer-bottom">
+    <p>© <span data-year></span> DuckWorth's Shine Co. All rights reserved.</p>
+  </div>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="assets/js/supabase-config.js"></script>
+<script src="staff-dashboard.js"></script>
+</body>
+</html>

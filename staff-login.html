@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Staff Login | DuckWorth's Shine Co.</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/styles.css">
+<style>
+  .login-shell{max-width:440px;margin-inline:auto}
+  .login-card{
+    background:var(--bg-2);border:1px solid var(--line);
+    border-radius:var(--radius-lg);padding:clamp(1.75rem,4vw,2.5rem);
+  }
+  .login-card h1{font-size:1.5rem;margin-bottom:.5rem}
+  .login-card .lede{margin-bottom:2rem}
+  .login-form{display:flex;flex-direction:column;gap:1.1rem}
+  .login-error{
+    display:none;background:rgba(240,116,95,.12);border:1px solid rgba(240,116,95,.4);
+    color:#f0a294;padding:.8rem 1rem;border-radius:var(--radius-sm);font-size:.85rem;margin-bottom:1rem;
+  }
+  .login-error.is-visible{display:block}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<main id="main">
+  <section class="section" style="min-height:80vh;display:grid;place-items:center">
+    <div class="wrap login-shell">
+      <div class="login-card">
+        <p class="eyebrow">Staff Only</p>
+        <h1>Staff Login</h1>
+        <p class="lede">Sign in to manage jobs and update customer statuses.</p>
+
+        <div class="login-error" id="loginError"></div>
+
+        <form class="login-form" id="loginForm" autocomplete="off">
+          <div class="form-group">
+            <label for="loginEmail">Email</label>
+            <input type="email" id="loginEmail" name="email" required autocomplete="email">
+          </div>
+          <div class="form-group">
+            <label for="loginPassword">Password</label>
+            <input type="password" id="loginPassword" name="password" required autocomplete="current-password">
+          </div>
+          <button class="btn btn-primary btn-lg btn-block" type="submit" id="loginBtn">Sign In</button>
+        </form>
+
+        <p class="status-hint" style="margin-top:1.5rem;font-size:.78rem;color:var(--muted-2);text-align:center">
+          <a href="status.html" style="color:var(--gold)">Customer? Track your detail →</a>
+        </p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap footer-bottom" style="border-top:0">
+    <p>© <span data-year></span> DuckWorth's Shine Co. All rights reserved.</p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="assets/js/supabase-config.js"></script>
+<script>
+  (function () {
+    'use strict';
+
+    const form = document.getElementById('loginForm');
+    const errorEl = document.getElementById('loginError');
+    const btn = document.getElementById('loginBtn');
+
+    function showError(msg) {
+      errorEl.textContent = msg;
+      errorEl.classList.add('is-visible');
+    }
+
+    function clearError() {
+      errorEl.textContent = '';
+      errorEl.classList.remove('is-visible');
+    }
+
+    // If already logged in, go straight to dashboard
+    supabaseClient.auth.getSession().then(({ data: { session } }) => {
+      if (session && session.user.email === 'detail@duckworthsshine.com') {
+        window.location.href = 'staff-dashboard.html';
+      }
+    });
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      clearError();
+
+      const email = document.getElementById('loginEmail').value.trim();
+      const password = document.getElementById('loginPassword').value;
+
+      if (email.toLowerCase() !== 'detail@duckworthsshine.com') {
+        showError('This account does not have staff access.');
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = 'Signing in…';
+
+      const { data, error } = await supabaseClient.auth.signInWithPassword({
+        email: email,
+        password: password
+      });
+
+      if (error) {
+        showError('Sign-in failed. Check your email and password.');
+        btn.disabled = false;
+        btn.textContent = 'Sign In';
+        return;
+      }
+
+      window.location.href = 'staff-dashboard.html';
+    });
+  })();
+</script>
+</body>
+</html>

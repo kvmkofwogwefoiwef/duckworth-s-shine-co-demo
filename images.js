@@ -43,8 +43,8 @@ const SITE_IMAGES = {
   "gallery2": "assets/img/placeholder.jpg",
   "gallery3": "assets/img/placeholder.jpg",
   "gallery4": "assets/img/placeholder.jpg",
-  "gallery5": "assets/img/placeholder.jpg",
-  "gallery6": "assets/img/placeholder.jpg",
+  "gallery5": "assets/img/placeholder.png",
+  "gallery6": "assets/img/placeholder.png",
 
   /* LOGO */
   "logo": "assets/img/logo.png"

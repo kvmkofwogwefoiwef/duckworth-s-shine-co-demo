@@ -1,6 +1,8 @@
 /* =========================================================
    DuckWorth's Shine Co. — Config Loader
-   Applies config values to the page. DO NOT EDIT.
+   Applies config values to the page and runs image swap
+   at the very end so dynamic content gets images too.
+   DO NOT EDIT.
    ========================================================= */
 (function () {
   'use strict';
@@ -78,12 +80,12 @@
       }).join('');
     }
 
-    /* Owners */
+    /* Owners — data-img so images.js swaps them */
     var ow = $('[data-owners]');
     if (ow && CONTENT.owners) {
       ow.innerHTML = CONTENT.owners.map(function (o) {
         return '<div class="card">' +
-          '<img class="card-media" data-img="' + o.imageKey + '" alt="' + o.alt + '" src="assets/img/placeholder.jpg">' +
+          '<img class="card-media" data-img="' + o.imageKey + '" alt="' + o.alt + '">' +
           '<div class="card-body"><h3>' + o.name + '</h3></div>' +
         '</div>';
       }).join('');
@@ -124,9 +126,48 @@
     }
   }
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', apply);
-  } else {
+  /* Runs images.js on all data-img / data-bg elements, including new ones */
+  function applyImages() {
+    if (typeof SITE_IMAGES === 'undefined' || !SITE_IMAGES) return;
+
+    var imgEls = document.querySelectorAll('[data-img]');
+    for (var i = 0; i < imgEls.length; i++) {
+      var el  = imgEls[i];
+      var key = el.getAttribute('data-img');
+      if (!key) continue;
+      var src = SITE_IMAGES[key];
+      if (src) {
+        el.setAttribute('src', src);
+        el.removeAttribute('data-img');
+      } else {
+        console.warn('Image key not found in images.js: ' + key);
+      }
+    }
+
+    var bgEls = document.querySelectorAll('[data-bg]');
+    for (var j = 0; j < bgEls.length; j++) {
+      var bgEl  = bgEls[j];
+      var bgKey = bgEl.getAttribute('data-bg');
+      if (!bgKey) continue;
+      var bgSrc = SITE_IMAGES[bgKey];
+      if (bgSrc) {
+        bgEl.style.backgroundImage    = "url('" + bgSrc + "')";
+        bgEl.style.backgroundSize     = 'cover';
+        bgEl.style.backgroundPosition = 'center';
+        bgEl.style.backgroundRepeat   = 'no-repeat';
+        bgEl.removeAttribute('data-bg');
+      }
+    }
+  }
+
+  function run() {
     apply();
+    applyImages();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', run);
+  } else {
+    run();
   }
 })();
