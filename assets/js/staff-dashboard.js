@@ -9,27 +9,39 @@
   let selectedJobId = null;
   let isCreatingNew = false;
 
-  const jobsListEl = document.getElementById('jobsList');
-  const editPanelEl = document.getElementById('editPanel');
+  const jobsListEl  = document.getElementById('jobsList');
   const editEmptyEl = document.getElementById('editEmpty');
-  const editFormEl = document.getElementById('editForm');
-  const newJobBtn = document.getElementById('newJobBtn');
-  const logoutBtn = document.getElementById('logoutBtn');
-  const toastEl = document.getElementById('toast');
+  const editFormEl  = document.getElementById('editForm');
+  const newJobBtn   = document.getElementById('newJobBtn');
+  const logoutBtn   = document.getElementById('logoutBtn');
+  const toastEl     = document.getElementById('toast');
 
   /* ---------- Auth Check ---------- */
   async function checkAuth() {
     const { data: { session } } = await supabaseClient.auth.getSession();
-    if (!session || session.user.email !== STAFF_EMAIL) {
+    if (!session || !session.user || session.user.email !== STAFF_EMAIL) {
       window.location.href = 'staff-login.html';
       return false;
     }
     return true;
   }
 
+  /* ---------- Logout ---------- */
   logoutBtn.addEventListener('click', async () => {
-    await supabaseClient.auth.signOut();
-    window.location.href = 'staff-login.html';
+    try {
+      await supabaseClient.auth.signOut({ scope: 'local' });
+    } catch (err) {
+      console.warn('Sign out failed, forcing local clear:', err);
+    }
+
+    // Force-clear any lingering Supabase keys
+    try {
+      Object.keys(localStorage)
+        .filter(k => k.startsWith('sb-') || k.includes('supabase'))
+        .forEach(k => localStorage.removeItem(k));
+    } catch (err) {}
+
+    window.location.href = 'staff-login.html?loggedout=1';
   });
 
   /* ---------- Toast ---------- */
@@ -39,7 +51,7 @@
     setTimeout(() => toastEl.classList.remove('is-visible'), 2600);
   }
 
-  /* ---------- Default steps for new jobs ---------- */
+  /* ---------- Default steps ---------- */
   const DEFAULT_STEPS = [
     'Vehicle received',
     'Exterior hand wash',
@@ -71,7 +83,7 @@
   function renderJobsList() {
     if (!allJobs.length) {
       jobsListEl.innerHTML =
-        '<div class="panel-empty"><div class="empty-icon">📋</div><p>No jobs yet. Click “+ New Job” to add one.</p></div>';
+        '<div class="panel-empty"><div class="empty-icon">📋</div><p>No jobs yet. Click "+ New Job" to add one.</p></div>';
       return;
     }
 
@@ -186,7 +198,6 @@
       </div>
     `;
 
-    // Save changes
     document.getElementById('saveJobBtn').addEventListener('click', saveJob);
     document.getElementById('toggleActiveBtn').addEventListener('click', toggleActive);
     document.getElementById('deleteJobBtn').addEventListener('click', deleteJob);
@@ -208,9 +219,13 @@
 
   function bindStepRows() {
     document.querySelectorAll('.step-remove').forEach(btn => {
+      // Avoid double-binding
+      if (btn.dataset.bound === '1') return;
+      btn.dataset.bound = '1';
       btn.addEventListener('click', (e) => {
         e.stopPropagation();
-        btn.closest('.step-row').remove();
+        const row = btn.closest('.step-row');
+        if (row) row.remove();
       });
     });
   }
@@ -247,7 +262,7 @@
       .eq('id', selectedJobId);
 
     if (error) {
-      toast('Save failed', true);
+      toast('Save failed: ' + error.message, true);
       return;
     }
 
@@ -267,7 +282,7 @@
       .eq('id', selectedJobId);
 
     if (error) {
-      toast('Could not update', true);
+      toast('Could not update: ' + error.message, true);
       return;
     }
 
@@ -286,7 +301,7 @@
       .eq('id', selectedJobId);
 
     if (error) {
-      toast('Delete failed', true);
+      toast('Delete failed: ' + error.message, true);
       return;
     }
 

@@ -23,6 +23,34 @@
     color:#f0a294;padding:.8rem 1rem;border-radius:var(--radius-sm);font-size:.85rem;margin-bottom:1rem;
   }
   .login-error.is-visible{display:block}
+  .login-hint{
+    font-size:.78rem;color:var(--muted-2);margin-top:1.5rem;text-align:center;
+  }
+  .login-hint a{color:var(--gold)}
+  .login-signed-in{
+    display:none;margin-bottom:1.5rem;padding:1rem 1.15rem;
+    background:rgba(20,111,30,.12);border:1px solid rgba(20,111,30,.4);
+    border-radius:var(--radius-sm);font-size:.85rem;
+    color:#7de394;
+  }
+  .login-signed-in.is-visible{display:block}
+  .login-signed-in a{
+    color:var(--gold);text-decoration:underline;margin-left:.35rem;
+  }
+  .login-signed-in button{
+    color:#f0a294;text-decoration:underline;margin-left:.5rem;
+    background:none;border:0;cursor:pointer;font-size:.85rem;padding:0;
+  }
+  .staff-brand{
+    display:flex;align-items:center;gap:.75rem;margin-bottom:1.5rem;
+    padding-bottom:1.5rem;border-bottom:1px solid var(--line);
+  }
+  .staff-brand img{
+    width:44px;height:44px;border-radius:10px;object-fit:cover;flex:0 0 44px;
+  }
+  .staff-brand-text{display:flex;flex-direction:column;line-height:1.15}
+  .staff-brand-text strong{font-family:var(--font-head);font-size:.95rem;font-weight:800}
+  .staff-brand-text small{font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted-2)}
 </style>
 </head>
 <body>
@@ -32,6 +60,21 @@
   <section class="section" style="min-height:80vh;display:grid;place-items:center">
     <div class="wrap login-shell">
       <div class="login-card">
+
+        <div class="staff-brand">
+          <img alt="DuckWorth's Shine Co. logo" src="assets/img/logo.png">
+          <span class="staff-brand-text">
+            <strong>DuckWorth's Shine Co.</strong>
+            <small>Staff Portal</small>
+          </span>
+        </div>
+
+        <div class="login-signed-in" id="signedInNotice">
+          You're already signed in.
+          <a href="staff-dashboard.html">Go to dashboard →</a>
+          <button type="button" id="signOutFromNotice">Sign out</button>
+        </div>
+
         <p class="eyebrow">Staff Only</p>
         <h1>Staff Login</h1>
         <p class="lede">Sign in to manage jobs and update customer statuses.</p>
@@ -50,8 +93,8 @@
           <button class="btn btn-primary btn-lg btn-block" type="submit" id="loginBtn">Sign In</button>
         </form>
 
-        <p class="status-hint" style="margin-top:1.5rem;font-size:.78rem;color:var(--muted-2);text-align:center">
-          <a href="status.html" style="color:var(--gold)">Customer? Track your detail →</a>
+        <p class="login-hint">
+          <a href="status.html">Customer? Track your detail →</a>
         </p>
       </div>
     </div>
@@ -70,9 +113,16 @@
   (function () {
     'use strict';
 
+    /* ---------- Year ---------- */
+    document.querySelectorAll('[data-year]').forEach(function (el) {
+      el.textContent = new Date().getFullYear();
+    });
+
     const form = document.getElementById('loginForm');
     const errorEl = document.getElementById('loginError');
     const btn = document.getElementById('loginBtn');
+    const signedInNotice = document.getElementById('signedInNotice');
+    const signOutFromNotice = document.getElementById('signOutFromNotice');
 
     function showError(msg) {
       errorEl.textContent = msg;
@@ -84,11 +134,44 @@
       errorEl.classList.remove('is-visible');
     }
 
-    // If already logged in, go straight to dashboard
-    supabaseClient.auth.getSession().then(({ data: { session } }) => {
-      if (session && session.user.email === 'detail@duckworthsshine.com') {
-        window.location.href = 'staff-dashboard.html';
+    function wipeSupabaseStorage() {
+      try {
+        Object.keys(localStorage)
+          .filter(k => k.startsWith('sb-') || k.includes('supabase'))
+          .forEach(k => localStorage.removeItem(k));
+      } catch (err) {}
+      try {
+        Object.keys(sessionStorage)
+          .filter(k => k.startsWith('sb-') || k.includes('supabase'))
+          .forEach(k => sessionStorage.removeItem(k));
+      } catch (err) {}
+    }
+
+    async function doSignOut() {
+      try {
+        await supabaseClient.auth.signOut({ scope: 'local' });
+      } catch (err) {
+        console.warn('signOut threw, forcing local clear', err);
       }
+      wipeSupabaseStorage();
+    }
+
+    (async () => {
+      try {
+        const { data: { session } } = await supabaseClient.auth.getSession();
+        if (session && session.user && session.user.email === 'detail@duckworthsshine.com') {
+          signedInNotice.classList.add('is-visible');
+        }
+      } catch (err) {
+        console.warn('Session check failed:', err);
+      }
+    })();
+
+    signOutFromNotice.addEventListener('click', async () => {
+      signedInNotice.classList.remove('is-visible');
+      await doSignOut();
+      clearError();
+      window.location.href = 'staff-login.html';
     });
 
     form.addEventListener('submit', async (e) => {
@@ -106,13 +189,20 @@
       btn.disabled = true;
       btn.textContent = 'Signing in…';
 
-      const { data, error } = await supabaseClient.auth.signInWithPassword({
+      const { error } = await supabaseClient.auth.signInWithPassword({
         email: email,
         password: password
       });
 
       if (error) {
-        showError('Sign-in failed. Check your email and password.');
+        let msg = 'Sign-in failed. Check your email and password.';
+        const lower = (error.message || '').toLowerCase();
+        if (lower.includes('not confirmed')) {
+          msg = 'Your account is not confirmed yet.';
+        } else if (lower.includes('invalid login')) {
+          msg = 'Incorrect email or password.';
+        }
+        showError(msg);
         btn.disabled = false;
         btn.textContent = 'Sign In';
         return;

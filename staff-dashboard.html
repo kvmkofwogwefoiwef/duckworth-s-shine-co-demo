@@ -12,33 +12,80 @@
 <style>
   .dash-header{
     display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;
-    gap:1rem;margin-bottom:2.5rem;
+    gap:1rem;margin-bottom:2rem;
   }
   .dash-header h1{font-size:1.75rem;margin:0}
   .dash-actions{display:flex;flex-wrap:wrap;gap:.65rem}
+
+  .dash-toolbar{
+    display:flex;flex-wrap:wrap;gap:.75rem;margin-bottom:1.5rem;
+    background:var(--bg-2);border:1px solid var(--line);
+    border-radius:var(--radius);padding:1rem 1.15rem;
+  }
+  .dash-toolbar input[type="search"]{
+    flex:1;min-width:180px;background:var(--bg);border:1px solid var(--line-2);
+    border-radius:var(--radius-sm);padding:.7rem .9rem;color:var(--text);font-size:.88rem;
+  }
+  .dash-toolbar select{
+    background:var(--bg);border:1px solid var(--line-2);
+    border-radius:var(--radius-sm);padding:.7rem .9rem;color:var(--text);font-size:.88rem;
+  }
+
   .dash-grid{display:grid;grid-template-columns:1fr;gap:1.25rem}
   @media(min-width:900px){.dash-grid{grid-template-columns:1.4fr 1fr}}
   .dash-list{display:flex;flex-direction:column;gap:1rem}
+
   .job-card{
     background:var(--bg-2);border:1px solid var(--line);
-    border-radius:var(--radius);padding:1.25rem 1.4rem;cursor:pointer;
+    border-radius:var(--radius);padding:1.25rem 1.4rem;
     transition:border-color .2s,background .2s;
   }
   .job-card:hover{border-color:var(--gold);background:var(--bg-3)}
   .job-card.is-selected{border-color:var(--green);background:linear-gradient(180deg,rgba(20,111,30,.08),var(--bg-2))}
   .job-card-top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:.5rem;margin-bottom:.5rem}
-  .job-card-name{font-family:var(--font-head);font-weight:700;font-size:1rem}
+  .job-card-name{
+    font-family:var(--font-head);font-weight:700;font-size:1rem;
+    cursor:pointer;
+  }
+  .job-card-name:hover{color:var(--gold)}
   .job-card-status{
     font-size:.7rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
     padding:.25rem .7rem;border-radius:999px;
   }
   .job-card-status.is-active{background:rgba(20,111,30,.15);color:var(--green-light);border:1px solid rgba(20,111,30,.4)}
   .job-card-status.is-done{background:rgba(109,122,114,.15);color:var(--muted-2);border:1px solid var(--line-2)}
-  .job-card-meta{font-size:.82rem;color:var(--muted);line-height:1.55}
+  .job-card-meta{font-size:.82rem;color:var(--muted);line-height:1.55;cursor:pointer}
   .job-card-progress{
     margin-top:.75rem;height:4px;background:var(--bg);border-radius:2px;overflow:hidden;
   }
   .job-card-progress-bar{height:100%;background:var(--green);width:0%;transition:width .3s}
+
+  .job-card-actions{
+    display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.9rem;padding-top:.9rem;
+    border-top:1px solid var(--line);
+  }
+  .job-card-actions a,
+  .job-card-actions button{
+    display:inline-flex;align-items:center;gap:.35rem;
+    font-size:.72rem;font-weight:600;letter-spacing:.03em;
+    padding:.4rem .8rem;border-radius:999px;
+    background:var(--bg-3);border:1px solid var(--line-2);
+    color:var(--muted);text-decoration:none;
+    transition:.18s;cursor:pointer;
+  }
+  .job-card-actions a:hover,
+  .job-card-actions button:hover{
+    background:var(--accent-soft);border-color:var(--green);color:var(--gold);
+  }
+
+  .load-more-wrap{text-align:center;margin-top:1.5rem}
+  .load-more-btn{
+    font-family:var(--font-head);font-size:.82rem;font-weight:700;
+    padding:.7rem 1.4rem;border-radius:999px;
+    background:var(--bg-3);border:1px solid var(--line-2);
+    color:var(--text);cursor:pointer;transition:.2s;
+  }
+  .load-more-btn:hover{border-color:var(--gold);color:var(--gold)}
 
   .edit-panel{
     background:var(--bg-2);border:1px solid var(--line);
@@ -74,27 +121,73 @@
   .panel-actions{display:flex;flex-wrap:wrap;gap:.65rem;margin-top:1.5rem}
   .panel-empty{text-align:center;padding:3rem 1rem;color:var(--muted)}
   .empty-icon{font-size:2rem;margin-bottom:.75rem;opacity:.5}
-  .photo-upload{
-    margin-top:1.25rem;padding-top:1.25rem;border-top:1px solid var(--line);
+
+  .photo-upload-section{
+    margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid var(--line);
   }
-  .photo-preview{display:grid;grid-template-columns:repeat(auto-fill,minmax(80px,1fr));gap:.5rem;margin-top:.75rem}
-  .photo-thumb{
-    position:relative;aspect-ratio:1;border-radius:var(--radius-sm);
-    overflow:hidden;border:1px solid var(--line);
+  .photo-upload-section h3{
+    font-size:.95rem;margin-bottom:.4rem;
   }
-  .photo-thumb img{width:100%;height:100%;object-fit:cover}
-  .photo-thumb button{
-    position:absolute;top:.25rem;right:.25rem;
-    background:rgba(0,0,0,.7);color:#fff;border:0;border-radius:50%;
-    width:22px;height:22px;font-size:.9rem;line-height:1;cursor:pointer;
+  .photo-upload-hint{
+    font-size:.78rem;color:var(--muted-2);margin-bottom:1rem;
   }
-  .file-input{
-    display:block;width:100%;padding:.7rem .85rem;
+  .photo-upload-row{
+    display:flex;gap:.6rem;align-items:center;flex-wrap:wrap;
+  }
+  .photo-upload-row input[type="file"]{
+    flex:1;min-width:180px;
+    padding:.6rem .8rem;
     background:var(--bg);border:1px dashed var(--line-2);
-    border-radius:var(--radius-sm);color:var(--muted);
-    font-size:.82rem;cursor:pointer;
+    border-radius:var(--radius-sm);color:var(--muted);font-size:.82rem;
+    cursor:pointer;
   }
-  .file-input:hover{border-color:var(--gold)}
+  .photo-upload-row input[type="file"]:hover{border-color:var(--gold)}
+  .photo-upload-row select{
+    background:var(--bg);border:1px solid var(--line-2);
+    border-radius:var(--radius-sm);padding:.6rem .8rem;
+    font-size:.82rem;color:var(--text);
+  }
+  .photo-upload-row button{
+    padding:.65rem 1.15rem;border-radius:999px;
+    font-family:var(--font-head);font-size:.82rem;font-weight:700;
+    background:var(--grad-btn);color:#fff;border:0;cursor:pointer;
+    transition:.2s;
+  }
+  .photo-upload-row button:disabled{opacity:.5;cursor:not-allowed}
+  .photo-upload-row button:not(:disabled):hover{transform:translateY(-1px)}
+
+  .photo-grid{
+    display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));
+    gap:.6rem;margin-top:1rem;
+  }
+  .photo-thumb{
+    position:relative;aspect-ratio:1;
+    border-radius:var(--radius-sm);overflow:hidden;
+    border:1px solid var(--line);background:var(--bg);
+  }
+  .photo-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+  .photo-thumb button{
+    position:absolute;top:.3rem;right:.3rem;
+    width:24px;height:24px;border-radius:50%;
+    background:rgba(0,0,0,.75);color:#fff;border:0;
+    font-size:.85rem;line-height:1;cursor:pointer;
+    display:grid;place-items:center;
+    transition:background .2s;
+  }
+  .photo-thumb button:hover{background:#c0392b}
+  .photo-type-tag{
+    position:absolute;bottom:.3rem;left:.3rem;
+    font-size:.6rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+    padding:.15rem .4rem;border-radius:4px;
+    background:rgba(0,0,0,.7);color:var(--gold);
+  }
+
+  .upload-progress{
+    margin-top:.75rem;font-size:.78rem;color:var(--muted);
+    display:none;
+  }
+  .upload-progress.is-visible{display:block}
+
   .toast{
     position:fixed;bottom:2rem;right:2rem;z-index:200;
     background:var(--green);color:#fff;padding:.85rem 1.25rem;
@@ -104,8 +197,6 @@
   }
   .toast.is-visible{opacity:1;transform:translateY(0)}
   .toast.is-error{background:#c0392b}
-  .new-job-form{display:none;margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid var(--line)}
-  .new-job-form.is-open{display:block}
 </style>
 </head>
 <body>
@@ -115,7 +206,7 @@
 <header class="site-header" id="siteHeader">
   <div class="wrap header-inner">
     <a class="brand" href="index.html">
-      <span class="brand-mark"><img data-img="logo" alt="DuckWorth's Shine Co. logo" src="assets/img/placeholder-logo.png"></span>
+      <span class="brand-mark"><img alt="DuckWorth's Shine Co. logo" src="assets/img/logo.png"></span>
       <span class="brand-text">
         <strong>DuckWorth's Shine Co.</strong>
         <small>Staff Dashboard</small>
@@ -142,8 +233,16 @@
         </div>
       </div>
 
+      <div class="dash-toolbar">
+        <input type="search" id="jobSearch" placeholder="Search by name, email, vehicle…">
+        <select id="jobFilter">
+          <option value="all">All jobs</option>
+          <option value="active" selected>Active only</option>
+          <option value="complete">Complete only</option>
+        </select>
+      </div>
+
       <div class="dash-grid">
-        <!-- JOBS LIST -->
         <div>
           <div class="dash-list" id="jobsList">
             <div class="panel-empty">
@@ -151,9 +250,11 @@
               <p>Loading jobs…</p>
             </div>
           </div>
+          <div class="load-more-wrap" id="loadMoreWrap" style="display:none">
+            <button class="load-more-btn" type="button" id="loadMoreBtn">Load more jobs</button>
+          </div>
         </div>
 
-        <!-- EDIT PANEL -->
         <div>
           <div class="edit-panel" id="editPanel">
             <div class="panel-empty" id="editEmpty">
@@ -179,6 +280,758 @@
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="assets/js/supabase-config.js"></script>
-<script src="staff-dashboard.js"></script>
+<script>
+/* =========================================================
+   DuckWorth's Shine Co. — Staff Dashboard (with photo upload)
+   ========================================================= */
+(function () {
+  'use strict';
+
+  var STAFF_EMAIL = 'detail@duckworthsshine.com';
+  var JOBS_PER_PAGE = 20;
+
+  var allJobs = [];
+  var filteredJobs = [];
+  var selectedJobId = null;
+  var isCreatingNew = false;
+  var currentJobPhotos = [];
+  var visibleCount = JOBS_PER_PAGE;
+  var currentSearch = '';
+  var currentFilter = 'active';
+
+  var jobsListEl   = document.getElementById('jobsList');
+  var editEmptyEl  = document.getElementById('editEmpty');
+  var editFormEl   = document.getElementById('editForm');
+  var newJobBtn    = document.getElementById('newJobBtn');
+  var logoutBtn    = document.getElementById('logoutBtn');
+  var toastEl      = document.getElementById('toast');
+  var searchEl     = document.getElementById('jobSearch');
+  var filterEl     = document.getElementById('jobFilter');
+  var loadMoreWrap = document.getElementById('loadMoreWrap');
+  var loadMoreBtn  = document.getElementById('loadMoreBtn');
+
+  /* ---------- Helpers ---------- */
+  function escapeHtml(str) {
+    return String(str || '')
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;');
+  }
+  function escapeAttr(str) {
+    return escapeHtml(str).replace(/"/g, '&quot;');
+  }
+  function toast(msg, isError) {
+    toastEl.textContent = msg;
+    toastEl.className = 'toast is-visible' + (isError ? ' is-error' : '');
+    setTimeout(function () { toastEl.classList.remove('is-visible'); }, 3000);
+  }
+  function wipeSupabaseStorage() {
+    try {
+      Object.keys(localStorage)
+        .filter(function (k) { return k.indexOf('sb-') === 0 || k.indexOf('supabase') !== -1; })
+        .forEach(function (k) { localStorage.removeItem(k); });
+    } catch (err) {}
+    try {
+      Object.keys(sessionStorage)
+        .filter(function (k) { return k.indexOf('sb-') === 0 || k.indexOf('supabase') !== -1; })
+        .forEach(function (k) { sessionStorage.removeItem(k); });
+    } catch (err) {}
+  }
+
+  /* ---------- Year ---------- */
+  document.querySelectorAll('[data-year]').forEach(function (el) {
+    el.textContent = new Date().getFullYear();
+  });
+
+  /* ---------- Auth ---------- */
+  async function checkAuth() {
+    try {
+      var result = await supabaseClient.auth.getSession();
+      var session = result.data.session;
+      if (!session || !session.user || session.user.email !== STAFF_EMAIL) {
+        window.location.href = 'staff-login.html';
+        return false;
+      }
+      return true;
+    } catch (err) {
+      window.location.href = 'staff-login.html';
+      return false;
+    }
+  }
+
+  logoutBtn.addEventListener('click', async function () {
+    try {
+      await supabaseClient.auth.signOut({ scope: 'local' });
+    } catch (err) {}
+    wipeSupabaseStorage();
+    window.location.replace('staff-login.html');
+  });
+
+  /* ---------- Load Jobs ---------- */
+  async function loadJobs() {
+    try {
+      var result = await supabaseClient
+        .from('jobs')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      if (result.error) {
+        toast('Could not load jobs: ' + result.error.message, true);
+        return;
+      }
+      allJobs = result.data || [];
+      applyFilters();
+    } catch (err) {
+      toast('Network error loading jobs', true);
+    }
+  }
+
+  /* ---------- Filter & Search ---------- */
+  function applyFilters() {
+    filteredJobs = allJobs.filter(function (job) {
+      if (currentFilter === 'active' && !job.active) return false;
+      if (currentFilter === 'complete' && job.active) return false;
+
+      if (currentSearch) {
+        var q = currentSearch.toLowerCase();
+        var hay = [
+          job.customer_name || '',
+          job.customer_email || '',
+          job.customer_phone || '',
+          job.vehicle || '',
+          job.service || ''
+        ].join(' ').toLowerCase();
+        if (hay.indexOf(q) === -1) return false;
+      }
+      return true;
+    });
+
+    visibleCount = Math.min(visibleCount, filteredJobs.length);
+    renderJobsList();
+  }
+
+  /* ---------- Render Jobs List ---------- */
+  function renderJobsList() {
+    if (!filteredJobs.length) {
+      var msg = allJobs.length
+        ? 'No jobs match your search or filter.'
+        : 'No jobs yet. Click "+ New Job" to add one.';
+      jobsListEl.innerHTML =
+        '<div class="panel-empty"><div class="empty-icon">📋</div><p>' + msg + '</p></div>';
+      loadMoreWrap.style.display = 'none';
+      return;
+    }
+
+    var visible = filteredJobs.slice(0, visibleCount);
+    var html = '';
+
+    for (var i = 0; i < visible.length; i++) {
+      var job = visible[i];
+      var steps = job.steps || [];
+      var doneCount = 0;
+      for (var s = 0; s < steps.length; s++) {
+        if (steps[s].done) doneCount++;
+      }
+      var pct = steps.length ? Math.round((doneCount / steps.length) * 100) : 0;
+      var isSelected = job.id === selectedJobId;
+
+      var phoneClean = (job.customer_phone || '').replace(/\D/g, '');
+      var smsHref = phoneClean ? 'sms:+1' + phoneClean : '';
+      var telHref = phoneClean ? 'tel:+1' + phoneClean : '';
+      var mailHref = job.customer_email ? 'mailto:' + job.customer_email : '';
+
+      html +=
+        '<div class="job-card ' + (isSelected ? 'is-selected' : '') + '" data-job-id="' + job.id + '">' +
+          '<div class="job-card-top">' +
+            '<div class="job-card-name" data-select="' + job.id + '">' + escapeHtml(job.customer_name) + '</div>' +
+            '<div class="job-card-status ' + (job.active ? 'is-active' : 'is-done') + '">' +
+              (job.active ? 'Active' : 'Complete') +
+            '</div>' +
+          '</div>' +
+          '<div class="job-card-meta" data-select="' + job.id + '">' +
+            escapeHtml(job.vehicle) + ' · ' + escapeHtml(job.service) + '<br>' +
+            (job.location ? escapeHtml(job.location) + ' · ' : '') +
+            (job.pickup ? 'Pickup ' + escapeHtml(job.pickup) : '') +
+          '</div>' +
+          '<div class="job-card-progress">' +
+            '<div class="job-card-progress-bar" style="width:' + pct + '%"></div>' +
+          '</div>' +
+          '<div class="job-card-actions">' +
+            (smsHref ? '<a href="' + smsHref + '" onclick="event.stopPropagation()">📱 Text</a>' : '') +
+            (telHref ? '<a href="' + telHref + '" onclick="event.stopPropagation()">📞 Call</a>' : '') +
+            (mailHref ? '<a href="' + mailHref + '" onclick="event.stopPropagation()">✉️ Email</a>' : '') +
+            '<button type="button" data-select="' + job.id + '">Open →</button>' +
+          '</div>' +
+        '</div>';
+    }
+    jobsListEl.innerHTML = html;
+
+    var selectors = jobsListEl.querySelectorAll('[data-select]');
+    for (var k = 0; k < selectors.length; k++) {
+      selectors[k].addEventListener('click', function (e) {
+        e.stopPropagation();
+        selectedJobId = this.getAttribute('data-select');
+        isCreatingNew = false;
+        renderJobsList();
+        renderEditForm();
+      });
+    }
+
+    if (filteredJobs.length > visibleCount) {
+      loadMoreWrap.style.display = 'block';
+    } else {
+      loadMoreWrap.style.display = 'none';
+    }
+  }
+
+  loadMoreBtn.addEventListener('click', function () {
+    visibleCount += JOBS_PER_PAGE;
+    renderJobsList();
+  });
+
+  /* ---------- Render Edit Form ---------- */
+  async function renderEditForm() {
+    if (isCreatingNew) {
+      renderNewJobForm();
+      return;
+    }
+
+    var job = null;
+    for (var i = 0; i < allJobs.length; i++) {
+      if (allJobs[i].id === selectedJobId) { job = allJobs[i]; break; }
+    }
+
+    if (!job) {
+      editEmptyEl.style.display = '';
+      editFormEl.style.display = 'none';
+      return;
+    }
+
+    editEmptyEl.style.display = 'none';
+    editFormEl.style.display = '';
+
+    var steps = job.steps || [];
+    var stepsHtml = '';
+    for (var s = 0; s < steps.length; s++) {
+      stepsHtml +=
+        '<div class="step-row" data-step-index="' + s + '">' +
+          '<input type="checkbox" ' + (steps[s].done ? 'checked' : '') + '>' +
+          '<input type="text" value="' + escapeAttr(steps[s].label) + '">' +
+          '<button class="step-remove" type="button" data-remove="' + s + '">×</button>' +
+        '</div>';
+    }
+
+    editFormEl.innerHTML =
+      '<h2>' + escapeHtml(job.customer_name) + '</h2>' +
+
+      '<div class="form-group">' +
+        '<label>Vehicle</label>' +
+        '<input type="text" id="editVehicle" value="' + escapeAttr(job.vehicle) + '">' +
+      '</div>' +
+
+      '<div class="form-group">' +
+        '<label>Service</label>' +
+        '<input type="text" id="editService" value="' + escapeAttr(job.service) + '">' +
+      '</div>' +
+
+      '<div class="form-group">' +
+        '<label>Location</label>' +
+        '<input type="text" id="editLocation" value="' + escapeAttr(job.location || '') + '">' +
+      '</div>' +
+
+      '<div class="form-row two">' +
+        '<div class="form-group">' +
+          '<label>Drop-off</label>' +
+          '<input type="text" id="editDropoff" value="' + escapeAttr(job.dropoff || '') + '">' +
+        '</div>' +
+        '<div class="form-group">' +
+          '<label>Expected Pickup</label>' +
+          '<input type="text" id="editPickup" value="' + escapeAttr(job.pickup || '') + '">' +
+        '</div>' +
+      '</div>' +
+
+      '<div class="form-group">' +
+        '<label>Notes for Customer</label>' +
+        '<textarea id="editNotes" rows="3">' + escapeHtml(job.notes || '') + '</textarea>' +
+      '</div>' +
+
+      '<div class="form-group">' +
+        '<label>Progress Steps</label>' +
+        '<div class="steps-editor" id="stepsEditor">' + stepsHtml + '</div>' +
+        '<button class="add-step-btn" type="button" id="addStepBtn">+ Add Step</button>' +
+      '</div>' +
+
+      '<div class="panel-actions">' +
+        '<button class="btn btn-primary" type="button" id="saveJobBtn">Save Changes</button>' +
+        '<button class="btn btn-outline" type="button" id="toggleActiveBtn">' +
+          (job.active ? 'Mark Complete' : 'Reactivate') +
+        '</button>' +
+        '<button class="btn btn-outline" type="button" id="deleteJobBtn" style="border-color:#f0745f;color:#f0745f">Delete</button>' +
+      '</div>' +
+
+      '<div class="photo-upload-section">' +
+        '<h3>Photos</h3>' +
+        '<p class="photo-upload-hint">Upload before, during, or after photos. The customer can see them on their status page.</p>' +
+        '<div class="photo-upload-row">' +
+          '<input type="file" id="photoFile" accept="image/*">' +
+          '<select id="photoType">' +
+            '<option value="before">Before</option>' +
+            '<option value="during">During</option>' +
+            '<option value="after">After</option>' +
+            '<option value="progress" selected>Progress</option>' +
+          '</select>' +
+          '<button type="button" id="photoUploadBtn">Upload</button>' +
+        '</div>' +
+        '<div class="upload-progress" id="uploadProgress">Uploading…</div>' +
+        '<div class="photo-grid" id="photoGrid"></div>' +
+      '</div>';
+
+    document.getElementById('saveJobBtn').addEventListener('click', saveJob);
+    document.getElementById('toggleActiveBtn').addEventListener('click', toggleActive);
+    document.getElementById('deleteJobBtn').addEventListener('click', deleteJob);
+    document.getElementById('addStepBtn').addEventListener('click', function () {
+      var editor = document.getElementById('stepsEditor');
+      var row = document.createElement('div');
+      row.className = 'step-row';
+      row.innerHTML =
+        '<input type="checkbox">' +
+        '<input type="text" value="New step">' +
+        '<button class="step-remove" type="button">×</button>';
+      editor.appendChild(row);
+      bindStepRows();
+    });
+    document.getElementById('photoUploadBtn').addEventListener('click', uploadPhoto);
+
+    bindStepRows();
+    await loadPhotos(job.id);
+  }
+
+  function bindStepRows() {
+    var btns = document.querySelectorAll('.step-remove');
+    for (var i = 0; i < btns.length; i++) {
+      if (btns[i].getAttribute('data-bound') === '1') continue;
+      btns[i].setAttribute('data-bound', '1');
+      btns[i].addEventListener('click', function (e) {
+        e.stopPropagation();
+        var row = this.closest('.step-row');
+        if (row) row.remove();
+      });
+    }
+  }
+
+  /* ---------- Photos ---------- */
+  async function loadPhotos(jobId) {
+    var grid = document.getElementById('photoGrid');
+    if (!grid) return;
+
+    try {
+      var result = await supabaseClient
+        .from('job_photos')
+        .select('*')
+        .eq('job_id', jobId)
+        .order('created_at', { ascending: true });
+
+      if (result.error) {
+        currentJobPhotos = [];
+        grid.innerHTML = '';
+        return;
+      }
+      currentJobPhotos = result.data || [];
+      renderPhotoGrid();
+    } catch (err) {
+      currentJobPhotos = [];
+      grid.innerHTML = '';
+    }
+  }
+
+  function renderPhotoGrid() {
+    var grid = document.getElementById('photoGrid');
+    if (!grid) return;
+    if (!currentJobPhotos.length) {
+      grid.innerHTML = '<p style="font-size:.8rem;color:var(--muted-2);grid-column:1/-1">No photos yet.</p>';
+      return;
+    }
+    var html = '';
+    for (var i = 0; i < currentJobPhotos.length; i++) {
+      var p = currentJobPhotos[i];
+      html +=
+        '<div class="photo-thumb">' +
+          '<img src="' + escapeAttr(p.photo_url) + '" alt="">' +
+          '<span class="photo-type-tag">' + escapeHtml(p.photo_type || 'progress') + '</span>' +
+          '<button type="button" data-photo-id="' + p.id + '" aria-label="Delete photo">×</button>' +
+        '</div>';
+    }
+    grid.innerHTML = html;
+
+    var delBtns = grid.querySelectorAll('button[data-photo-id]');
+    for (var j = 0; j < delBtns.length; j++) {
+      delBtns[j].addEventListener('click', function () {
+        deletePhoto(this.getAttribute('data-photo-id'));
+      });
+    }
+  }
+
+  async function uploadPhoto() {
+    var fileInput = document.getElementById('photoFile');
+    var typeSelect = document.getElementById('photoType');
+    var btn = document.getElementById('photoUploadBtn');
+    var progress = document.getElementById('uploadProgress');
+
+    if (!fileInput.files || !fileInput.files.length) {
+      toast('Choose a photo first', true);
+      return;
+    }
+
+    var file = fileInput.files[0];
+    if (file.size > 8 * 1024 * 1024) {
+      toast('Photo must be under 8 MB', true);
+      return;
+    }
+
+    var job = null;
+    for (var i = 0; i < allJobs.length; i++) {
+      if (allJobs[i].id === selectedJobId) { job = allJobs[i]; break; }
+    }
+    if (!job) return;
+
+    btn.disabled = true;
+    btn.textContent = 'Uploading…';
+    progress.classList.add('is-visible');
+
+    var ext = (file.name.split('.').pop() || 'jpg').toLowerCase();
+    var filename = job.id + '/' + Date.now() + '.' + ext;
+
+    try {
+      var uploadResult = await supabaseClient
+        .storage
+        .from('job-photos')
+        .upload(filename, file, { cacheControl: '3600', upsert: false });
+
+      if (uploadResult.error) {
+        toast('Upload failed: ' + uploadResult.error.message, true);
+        btn.disabled = false;
+        btn.textContent = 'Upload';
+        progress.classList.remove('is-visible');
+        return;
+      }
+
+      var urlResult = supabaseClient
+        .storage
+        .from('job-photos')
+        .getPublicUrl(filename);
+
+      var publicUrl = urlResult.data.publicUrl;
+
+      var insertResult = await supabaseClient
+        .from('job_photos')
+        .insert({
+          job_id: job.id,
+          photo_url: publicUrl,
+          photo_type: typeSelect.value
+        });
+
+      if (insertResult.error) {
+        toast('Could not save photo record', true);
+        btn.disabled = false;
+        btn.textContent = 'Upload';
+        progress.classList.remove('is-visible');
+        return;
+      }
+
+      fileInput.value = '';
+      toast('Photo uploaded');
+      await loadPhotos(job.id);
+    } catch (err) {
+      toast('Upload error: ' + err.message, true);
+    }
+
+    btn.disabled = false;
+    btn.textContent = 'Upload';
+    progress.classList.remove('is-visible');
+  }
+
+  async function deletePhoto(photoId) {
+    if (!confirm('Delete this photo?')) return;
+
+    try {
+      var row = null;
+      for (var i = 0; i < currentJobPhotos.length; i++) {
+        if (currentJobPhotos[i].id === photoId) { row = currentJobPhotos[i]; break; }
+      }
+
+      var delResult = await supabaseClient
+        .from('job_photos')
+        .delete()
+        .eq('id', photoId);
+
+      if (delResult.error) {
+        toast('Could not delete: ' + delResult.error.message, true);
+        return;
+      }
+
+      if (row && row.photo_url) {
+        var parts = row.photo_url.split('/job-photos/');
+        if (parts.length === 2) {
+          await supabaseClient.storage.from('job-photos').remove([parts[1]]);
+        }
+      }
+
+      toast('Photo deleted');
+      if (selectedJobId) await loadPhotos(selectedJobId);
+    } catch (err) {
+      toast('Delete error', true);
+    }
+  }
+
+  /* ---------- Save Job ---------- */
+  async function saveJob() {
+    var job = null;
+    for (var i = 0; i < allJobs.length; i++) {
+      if (allJobs[i].id === selectedJobId) { job = allJobs[i]; break; }
+    }
+    if (!job) return;
+
+    var steps = [];
+    var rows = document.querySelectorAll('#stepsEditor .step-row');
+    for (var r = 0; r < rows.length; r++) {
+      var checkbox = rows[r].querySelector('input[type="checkbox"]');
+      var textInput = rows[r].querySelector('input[type="text"]');
+      steps.push({
+        label: textInput.value.trim() || 'Step',
+        done: checkbox.checked
+      });
+    }
+
+    var updates = {
+      vehicle: document.getElementById('editVehicle').value.trim(),
+      service: document.getElementById('editService').value.trim(),
+      location: document.getElementById('editLocation').value.trim(),
+      dropoff: document.getElementById('editDropoff').value.trim(),
+      pickup: document.getElementById('editPickup').value.trim(),
+      notes: document.getElementById('editNotes').value.trim(),
+      steps: steps,
+      updated_at: new Date().toISOString()
+    };
+
+    var result = await supabaseClient.from('jobs').update(updates).eq('id', selectedJobId);
+    if (result.error) {
+      toast('Save failed: ' + result.error.message, true);
+      return;
+    }
+    toast('Job updated');
+    await loadJobs();
+    await renderEditForm();
+  }
+
+  /* ---------- Toggle Active ---------- */
+  async function toggleActive() {
+    var job = null;
+    for (var i = 0; i < allJobs.length; i++) {
+      if (allJobs[i].id === selectedJobId) { job = allJobs[i]; break; }
+    }
+    if (!job) return;
+
+    var result = await supabaseClient
+      .from('jobs')
+      .update({ active: !job.active, updated_at: new Date().toISOString() })
+      .eq('id', selectedJobId);
+
+    if (result.error) {
+      toast('Could not update: ' + result.error.message, true);
+      return;
+    }
+    toast(job.active ? 'Job marked complete' : 'Job reactivated');
+    await loadJobs();
+    await renderEditForm();
+  }
+
+  /* ---------- Delete Job ---------- */
+  async function deleteJob() {
+    if (!confirm('Delete this job permanently? This cannot be undone.')) return;
+
+    var result = await supabaseClient.from('jobs').delete().eq('id', selectedJobId);
+    if (result.error) {
+      toast('Delete failed: ' + result.error.message, true);
+      return;
+    }
+    toast('Job deleted');
+    selectedJobId = null;
+    await loadJobs();
+    renderEditForm();
+  }
+
+  /* ---------- New Job Form ---------- */
+  function renderNewJobForm() {
+    editEmptyEl.style.display = 'none';
+    editFormEl.style.display = '';
+
+    editFormEl.innerHTML =
+      '<h2>New Job</h2>' +
+
+      '<div class="form-row two">' +
+        '<div class="form-group">' +
+          '<label>Customer Name</label>' +
+          '<input type="text" id="newName" placeholder="Jane Doe">' +
+        '</div>' +
+        '<div class="form-group">' +
+          '<label>Customer Email</label>' +
+          '<input type="email" id="newEmail" placeholder="jane@example.com">' +
+        '</div>' +
+      '</div>' +
+
+      '<div class="form-row two">' +
+        '<div class="form-group">' +
+          '<label>Phone</label>' +
+          '<input type="tel" id="newPhone" placeholder="517-555-0142">' +
+        '</div>' +
+        '<div class="form-group">' +
+          '<label>4-Digit PIN</label>' +
+          '<input type="text" id="newPin" maxlength="4" placeholder="0000" inputmode="numeric">' +
+        '</div>' +
+      '</div>' +
+
+      '<div class="form-group">' +
+        '<label>Vehicle</label>' +
+        '<input type="text" id="newVehicle" placeholder="2020 Honda CR-V">' +
+      '</div>' +
+
+      '<div class="form-row two">' +
+        '<div class="form-group">' +
+          '<label>Service</label>' +
+          '<select id="newService">' +
+            '<option>Full Detail</option>' +
+            '<option>Interior Only</option>' +
+            '<option>Exterior Only</option>' +
+            '<option>Boat Detail</option>' +
+            '<option>Work Truck / Fleet</option>' +
+          '</select>' +
+        '</div>' +
+        '<div class="form-group">' +
+          '<label>Location</label>' +
+          '<input type="text" id="newLocation" placeholder="Shop or Mobile">' +
+        '</div>' +
+      '</div>' +
+
+      '<div class="form-row two">' +
+        '<div class="form-group">' +
+          '<label>Drop-off</label>' +
+          '<input type="text" id="newDropoff" placeholder="Oct 14, 9:00 AM">' +
+        '</div>' +
+        '<div class="form-group">' +
+          '<label>Expected Pickup</label>' +
+          '<input type="text" id="newPickup" placeholder="Oct 14, 4:00 PM">' +
+        '</div>' +
+      '</div>' +
+
+      '<div class="form-group">' +
+        '<label>Notes</label>' +
+        '<textarea id="newNotes" rows="2"></textarea>' +
+      '</div>' +
+
+      '<div class="panel-actions">' +
+        '<button class="btn btn-primary" type="button" id="createJobBtn">Create Job</button>' +
+        '<button class="btn btn-outline" type="button" id="cancelNewBtn">Cancel</button>' +
+      '</div>';
+
+    document.getElementById('createJobBtn').addEventListener('click', createJob);
+    document.getElementById('cancelNewBtn').addEventListener('click', function () {
+      isCreatingNew = false;
+      renderEditForm();
+    });
+  }
+
+  /* ---------- Create Job ---------- */
+  async function createJob() {
+    var name = document.getElementById('newName').value.trim();
+    var email = document.getElementById('newEmail').value.trim().toLowerCase();
+    var phone = document.getElementById('newPhone').value.trim();
+    var pin = document.getElementById('newPin').value.trim();
+    var vehicle = document.getElementById('newVehicle').value.trim();
+    var service = document.getElementById('newService').value;
+    var location = document.getElementById('newLocation').value.trim();
+    var dropoff = document.getElementById('newDropoff').value.trim();
+    var pickup = document.getElementById('newPickup').value.trim();
+    var notes = document.getElementById('newNotes').value.trim();
+
+    if (!name || !email || !pin || !vehicle) {
+      toast('Name, email, PIN, and vehicle are required', true);
+      return;
+    }
+
+    var defaultSteps = [
+      'Vehicle received',
+      'Exterior hand wash',
+      'Interior deep clean',
+      'Extraction & shampoo',
+      'Leather conditioned',
+      'Hand-applied sealant',
+      'Final inspection',
+      'Ready for pickup'
+    ];
+    var steps = [];
+    for (var i = 0; i < defaultSteps.length; i++) {
+      steps.push({ label: defaultSteps[i], done: false });
+    }
+
+    var result = await supabaseClient
+      .from('jobs')
+      .insert({
+        customer_name: name,
+        customer_email: email,
+        customer_phone: phone,
+        pin: pin,
+        vehicle: vehicle,
+        service: service,
+        location: location,
+        dropoff: dropoff,
+        pickup: pickup,
+        notes: notes,
+        steps: steps,
+        active: true
+      });
+
+    if (result.error) {
+      toast('Could not create job: ' + result.error.message, true);
+      return;
+    }
+    toast('Job created');
+    isCreatingNew = false;
+    await loadJobs();
+    await renderEditForm();
+  }
+
+  /* ---------- Toolbar Listeners ---------- */
+  var searchTimer = null;
+  searchEl.addEventListener('input', function () {
+    clearTimeout(searchTimer);
+    var val = this.value.trim();
+    searchTimer = setTimeout(function () {
+      currentSearch = val;
+      visibleCount = JOBS_PER_PAGE;
+      applyFilters();
+    }, 180);
+  });
+
+  filterEl.addEventListener('change', function () {
+    currentFilter = this.value;
+    visibleCount = JOBS_PER_PAGE;
+    applyFilters();
+  });
+
+  /* ---------- Init ---------- */
+  newJobBtn.addEventListener('click', function () {
+    isCreatingNew = true;
+    selectedJobId = null;
+    renderJobsList();
+    renderEditForm();
+  });
+
+  (async function init() {
+    var ok = await checkAuth();
+    if (!ok) return;
+    await loadJobs();
+  })();
+})();
+</script>
 </body>
 </html>

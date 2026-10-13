@@ -7,6 +7,9 @@
   var $  = function (sel, ctx) { return (ctx || document).querySelector(sel); };
   var $$ = function (sel, ctx) { return Array.prototype.slice.call((ctx || document).querySelectorAll(sel)); };
 
+  /* ---------------------------------------------------------
+     1. Mobile navigation
+     --------------------------------------------------------- */
   function initNav() {
     var toggle = $('#navToggle');
     var nav    = $('#primaryNav');
@@ -53,6 +56,9 @@
     });
   }
 
+  /* ---------------------------------------------------------
+     2. Sticky header
+     --------------------------------------------------------- */
   function initHeader() {
     var header = $('#siteHeader');
     if (!header) return;
@@ -61,6 +67,9 @@
     window.addEventListener('scroll', onScroll, { passive: true });
   }
 
+  /* ---------------------------------------------------------
+     3. Before / After slider
+     --------------------------------------------------------- */
   function initBeforeAfter() {
     $$('[data-ba]').forEach(function (slider) {
       var range = $('.ba-range', slider);
@@ -104,6 +113,9 @@
     });
   }
 
+  /* ---------------------------------------------------------
+     4. Accordions
+     --------------------------------------------------------- */
   function initAccordions() {
     $$('.accordion').forEach(function (acc) {
       var items = $$('.accordion-item', acc);
@@ -149,6 +161,9 @@
     });
   }
 
+  /* ---------------------------------------------------------
+     5. Gallery
+     --------------------------------------------------------- */
   function initGallery() {
     var grid = $('[data-gallery]');
     if (!grid) return;
@@ -232,6 +247,9 @@
     });
   }
 
+  /* ---------------------------------------------------------
+     6. Contact form
+     --------------------------------------------------------- */
   function initForms() {
     $$('form[data-form]').forEach(function (form) {
       var status = $('.form-status', form);
@@ -331,10 +349,16 @@
     });
   }
 
+  /* ---------------------------------------------------------
+     7. Footer year
+     --------------------------------------------------------- */
   function initYear() {
     $$('[data-year]').forEach(function (el) { el.textContent = new Date().getFullYear(); });
   }
 
+  /* ---------------------------------------------------------
+     8. Scroll reveal
+     --------------------------------------------------------- */
   function initReveal() {
     var els = $$('[data-reveal]');
     if (!els.length) return;
@@ -354,6 +378,9 @@
     els.forEach(function (el) { io.observe(el); });
   }
 
+  /* ---------------------------------------------------------
+     9. Active nav
+     --------------------------------------------------------- */
   function initActiveNav() {
     var path = location.pathname.split('/').pop() || 'index.html';
     $$('.nav-list a').forEach(function (a) {
@@ -364,6 +391,9 @@
     });
   }
 
+  /* ---------------------------------------------------------
+     10. Smooth anchor scroll
+     --------------------------------------------------------- */
   function initAnchorScroll() {
     document.addEventListener('click', function (e) {
       var link = e.target.closest('a[href^="#"]');
@@ -384,6 +414,9 @@
     });
   }
 
+  /* ---------------------------------------------------------
+     11. Animated stat counters
+     --------------------------------------------------------- */
   function initStats() {
     var els = $$('[data-count]');
     if (!els.length) return;
@@ -429,6 +462,9 @@
     els.forEach(function (el) { io.observe(el); });
   }
 
+  /* ---------------------------------------------------------
+     12. SMS booking links
+     --------------------------------------------------------- */
   function initSmsLinks() {
     var PHONE = '15177811731';
     $$('[data-sms]').forEach(function (el) {
@@ -441,6 +477,90 @@
     });
   }
 
+  /* ---------------------------------------------------------
+     13. Back to top button
+     Creates the button if it doesn't exist in the HTML
+     --------------------------------------------------------- */
+  function initBackToTop() {
+    var btn = document.getElementById('backToTop');
+
+    // Create the button if it isn't already in the HTML
+    if (!btn) {
+      btn = document.createElement('button');
+      btn.id = 'backToTop';
+      btn.className = 'back-to-top';
+      btn.type = 'button';
+      btn.setAttribute('aria-label', 'Back to top');
+      btn.innerHTML =
+        '<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">' +
+          '<path d="M12 4l-8 8h5v8h6v-8h5z"/>' +
+        '</svg>';
+      document.body.appendChild(btn);
+    }
+
+    var onScroll = function () {
+      btn.classList.toggle('is-visible', window.scrollY > 500);
+    };
+
+    btn.addEventListener('click', function () {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+  }
+
+  /* ---------------------------------------------------------
+     14. Staff session inactivity timeout
+     If the current page is the staff dashboard, log out after
+     30 minutes of inactivity. Harmless on public pages.
+     --------------------------------------------------------- */
+  function initStaffInactivityTimeout() {
+    // Only run on the staff dashboard
+    var path = location.pathname.split('/').pop() || '';
+    if (path !== 'staff-dashboard.html') return;
+
+    // Confirm supabaseClient exists (config might not be loaded on this page)
+    if (typeof supabaseClient === 'undefined' || !supabaseClient || !supabaseClient.auth) return;
+
+    var TIMEOUT_MS = 30 * 60 * 1000; // 30 minutes
+    var timer = null;
+
+    var logout = async function () {
+      try {
+        await supabaseClient.auth.signOut({ scope: 'local' });
+      } catch (err) {}
+      // Clear Supabase storage keys
+      try {
+        Object.keys(localStorage)
+          .filter(function (k) { return k.indexOf('sb-') === 0 || k.indexOf('supabase') !== -1; })
+          .forEach(function (k) { localStorage.removeItem(k); });
+      } catch (err) {}
+      window.location.replace('staff-login.html?expired=1');
+    };
+
+    var resetTimer = function () {
+      clearTimeout(timer);
+      timer = setTimeout(logout, TIMEOUT_MS);
+    };
+
+    // Reset on activity
+    ['mousemove', 'keydown', 'click', 'scroll', 'touchstart'].forEach(function (evt) {
+      document.addEventListener(evt, resetTimer, { passive: true });
+    });
+
+    // Start the timer
+    resetTimer();
+
+    // Clean up on unload
+    window.addEventListener('beforeunload', function () {
+      clearTimeout(timer);
+    });
+  }
+
+  /* ---------------------------------------------------------
+     Boot
+     --------------------------------------------------------- */
   document.addEventListener('DOMContentLoaded', function () {
     try { initNav(); }          catch (e) { console.error('initNav', e); }
     try { initHeader(); }       catch (e) { console.error('initHeader', e); }
@@ -454,5 +574,7 @@
     try { initAnchorScroll(); } catch (e) { console.error('initAnchorScroll', e); }
     try { initStats(); }        catch (e) { console.error('initStats', e); }
     try { initSmsLinks(); }     catch (e) { console.error('initSmsLinks', e); }
+    try { initBackToTop(); }    catch (e) { console.error('initBackToTop', e); }
+    try { initStaffInactivityTimeout(); } catch (e) { console.error('initStaffInactivityTimeout', e); }
   });
 })();
