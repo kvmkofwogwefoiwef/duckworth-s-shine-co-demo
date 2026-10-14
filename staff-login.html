@@ -11,6 +11,18 @@
 <link rel="stylesheet" href="assets/css/styles.css">
 <style>
   .login-shell{max-width:440px;margin-inline:auto}
+
+  .back-home{
+    display:inline-flex;align-items:center;gap:.5rem;
+    font-size:.82rem;font-weight:500;color:var(--muted);
+    padding:.55rem 1rem;border-radius:999px;
+    background:var(--bg-2);border:1px solid var(--line);
+    margin-bottom:1.5rem;
+    transition:border-color .2s,color .2s,transform .2s;
+  }
+  .back-home:hover{border-color:var(--gold);color:var(--gold);transform:translateX(-2px)}
+  .back-home svg{width:14px;height:14px;fill:currentColor;flex-shrink:0}
+
   .login-card{
     background:var(--bg-2);border:1px solid var(--line);
     border-radius:var(--radius-lg);padding:clamp(1.75rem,4vw,2.5rem);
@@ -59,6 +71,14 @@
 <main id="main">
   <section class="section" style="min-height:80vh;display:grid;place-items:center">
     <div class="wrap login-shell">
+
+      <a class="back-home" href="index.html">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+        </svg>
+        Back to Home
+      </a>
+
       <div class="login-card">
 
         <div class="staff-brand">
@@ -113,7 +133,6 @@
   (function () {
     'use strict';
 
-    /* ---------- Year ---------- */
     document.querySelectorAll('[data-year]').forEach(function (el) {
       el.textContent = new Date().getFullYear();
     });

@@ -1042,3 +1042,26 @@ input[aria-invalid="true"],select[aria-invalid="true"],textarea[aria-invalid="tr
 .promo-close:hover{background:rgba(0,0,0,.3)}
 .promo-banner[hidden]{display:none}
 */
+
+/* =========================================================
+   TRACK DETAIL — header button + mobile bar (3-up)
+   ========================================================= */
+
+.nav-track{
+  padding:.62rem 1.2rem;
+  font-size:.84rem;
+  border-color:var(--line-2);
+}
+.nav-track:hover{
+  border-color:var(--gold);
+  color:var(--gold);
+}
+
+/* Stacked header CTAs on desktop */
+.nav .nav-cta + .nav-track{margin-left:.5rem}
+
+/* Mobile bottom bar: 3 buttons */
+.mobile-cta .btn{
+  font-size:.8rem;
+  padding:.62rem .9rem;
+}

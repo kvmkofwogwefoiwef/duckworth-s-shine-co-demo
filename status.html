@@ -10,7 +10,18 @@
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/styles.css">
 <style>
-  .status-shell{max-width:760px;margin-inline:auto}
+  .status-shell{max-width:820px;margin-inline:auto}
+
+  .back-home{
+    display:inline-flex;align-items:center;gap:.5rem;
+    font-size:.82rem;font-weight:500;color:var(--muted);
+    padding:.55rem 1rem;border-radius:999px;
+    background:var(--bg-2);border:1px solid var(--line);
+    margin-bottom:1.5rem;
+    transition:border-color .2s,color .2s,transform .2s;
+  }
+  .back-home:hover{border-color:var(--gold);color:var(--gold);transform:translateX(-2px)}
+  .back-home svg{width:14px;height:14px;fill:currentColor;flex-shrink:0}
 
   .status-locked{
     background:var(--bg-2);border:1px solid var(--line);
@@ -30,12 +41,6 @@
   .status-welcome{display:none}
   .status-welcome.is-visible{display:block}
 
-  .status-card{
-    background:linear-gradient(180deg,var(--bg-3),var(--bg-2));
-    border:1px solid var(--line);border-radius:var(--radius-lg);
-    padding:clamp(1.5rem,3vw,2.25rem);margin-bottom:1.5rem;
-  }
-
   .status-brand{
     display:flex;align-items:center;gap:.75rem;margin-bottom:1.5rem;
     padding-bottom:1.5rem;border-bottom:1px solid var(--line);
@@ -47,12 +52,34 @@
   .status-brand-text strong{font-family:var(--font-head);font-size:.95rem;font-weight:800}
   .status-brand-text small{font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted-2)}
 
-  .status-header{
+  .welcome-header{
+    display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;
+    gap:1rem;margin-bottom:1.5rem;
+  }
+  .welcome-header h2{font-size:1.4rem;margin:0 0 .25rem}
+  .welcome-header p{margin:0;font-size:.85rem;color:var(--muted)}
+
+  .job-block{
+    background:linear-gradient(180deg,var(--bg-3),var(--bg-2));
+    border:1px solid var(--line);border-radius:var(--radius-lg);
+    padding:clamp(1.5rem,3vw,2.25rem);margin-bottom:1.5rem;
+  }
+  .job-block.is-active{border-color:rgba(20,111,30,.5)}
+
+  .job-block-header{
     display:flex;flex-wrap:wrap;align-items:flex-start;justify-content:space-between;
     gap:1rem;margin-bottom:1.5rem;padding-bottom:1.5rem;border-bottom:1px solid var(--line);
   }
-  .status-header h2{font-size:1.25rem;margin:0 0 .25rem}
-  .status-header p{margin:0;font-size:.85rem;color:var(--muted)}
+  .job-block-header h3{font-size:1.15rem;margin:0 0 .25rem}
+  .job-block-header p{margin:0;font-size:.85rem;color:var(--muted)}
+
+  .status-pill{
+    font-size:.68rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+    padding:.35rem .85rem;border-radius:999px;
+    white-space:nowrap;
+  }
+  .status-pill.is-active{background:rgba(20,111,30,.15);color:var(--green-light);border:1px solid rgba(20,111,30,.45)}
+  .status-pill.is-done{background:rgba(109,122,114,.15);color:var(--muted-2);border:1px solid var(--line-2)}
 
   .status-detail-grid{
     display:grid;grid-template-columns:1fr;gap:.75rem;margin-bottom:1.75rem;
@@ -111,35 +138,26 @@
     font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;margin-bottom:.35rem;
   }
 
-  .status-logout{
-    display:flex;flex-wrap:wrap;gap:.75rem;margin-top:2rem;padding-top:1.5rem;
-    border-top:1px solid var(--line);
-  }
-
   .status-complete{
-    text-align:center;padding:2rem 1rem;
+    text-align:center;padding:1.75rem 1rem;
     background:linear-gradient(180deg,rgba(20,111,30,.12),var(--bg-3));
     border:1px solid rgba(20,111,30,.4);border-radius:var(--radius);
     margin-bottom:1.5rem;
   }
   .status-complete-icon{
-    width:56px;height:56px;margin:0 auto .85rem;border-radius:50%;
+    width:52px;height:52px;margin:0 auto .75rem;border-radius:50%;
     background:var(--green);color:#fff;
-    font-size:1.5rem;font-weight:800;
+    font-size:1.4rem;font-weight:800;
     display:grid;place-items:center;
   }
-  .status-complete h3{font-size:1.15rem;margin:0 0 .35rem}
-  .status-complete p{margin:0;color:var(--muted);font-size:.9rem}
-
-  .status-hint{
-    font-size:.78rem;color:var(--muted-2);margin-top:1rem;text-align:center;
-  }
+  .status-complete h3{font-size:1.05rem;margin:0 0 .35rem}
+  .status-complete p{margin:0;color:var(--muted);font-size:.88rem}
 
   .status-photo-section{
     margin-top:1.75rem;padding-top:1.5rem;border-top:1px solid var(--line);
   }
-  .status-photo-section h3{
-    font-size:.95rem;margin-bottom:.85rem;color:var(--text);
+  .status-photo-section h4{
+    font-size:.92rem;margin-bottom:.85rem;color:var(--text);
     font-family:var(--font-head);
   }
   .photo-filters{
@@ -169,14 +187,59 @@
     display:block;
   }
   .status-photo:hover{transform:scale(1.02);border-color:var(--gold)}
-  .status-photo img{
-    width:100%;height:100%;object-fit:cover;display:block;
-  }
+  .status-photo img{width:100%;height:100%;object-fit:cover;display:block}
   .photo-tag{
     position:absolute;top:.3rem;left:.3rem;
     font-size:.6rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
     padding:.15rem .4rem;border-radius:4px;
     background:rgba(0,0,0,.7);color:var(--gold);
+  }
+
+  .past-section{margin-top:2.5rem}
+  .past-section h3{
+    font-family:var(--font-head);font-size:.78rem;font-weight:700;
+    letter-spacing:.16em;text-transform:uppercase;color:var(--muted-2);
+    margin-bottom:1rem;padding-bottom:.75rem;border-bottom:1px solid var(--line);
+  }
+
+  .past-item{
+    background:var(--bg-2);border:1px solid var(--line);
+    border-radius:var(--radius);margin-bottom:.85rem;overflow:hidden;
+    transition:border-color .2s;
+  }
+  .past-item.is-open{border-color:var(--line-2)}
+  .past-summary{
+    width:100%;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;
+    gap:1rem;padding:1.1rem 1.3rem;text-align:left;
+    background:none;border:0;color:inherit;cursor:pointer;
+    transition:background .2s;
+  }
+  .past-summary:hover{background:var(--bg-3)}
+  .past-summary-info{flex:1;min-width:0}
+  .past-summary-info strong{
+    display:block;font-family:var(--font-head);font-size:.95rem;
+    color:var(--text);margin-bottom:.2rem;
+  }
+  .past-summary-info span{
+    font-size:.78rem;color:var(--muted);display:block;
+  }
+  .past-chevron{
+    flex:0 0 20px;width:20px;height:20px;color:var(--muted-2);
+    transition:transform .25s var(--ease);
+  }
+  .past-item.is-open .past-chevron{transform:rotate(180deg)}
+  .past-chevron svg{width:100%;height:100%;fill:currentColor;display:block}
+
+  .past-body{max-height:0;overflow:hidden;transition:max-height .35s var(--ease)}
+  .past-body-inner{padding:0 1.3rem 1.5rem;border-top:1px solid var(--line);padding-top:1.5rem}
+
+  .status-logout{
+    display:flex;flex-wrap:wrap;gap:.75rem;margin-top:2rem;padding-top:1.5rem;
+    border-top:1px solid var(--line);
+  }
+
+  .status-hint{
+    font-size:.78rem;color:var(--muted-2);margin-top:1rem;text-align:center;
   }
 
   .status-lightbox{
@@ -198,9 +261,7 @@
     display:grid;place-items:center;cursor:pointer;
     transition:.2s;
   }
-  .status-lightbox-close:hover{
-    background:var(--green);border-color:var(--green);
-  }
+  .status-lightbox-close:hover{background:var(--green);border-color:var(--green)}
 
   .status-loader{
     display:none;text-align:center;padding:3rem 1rem;color:var(--muted);
@@ -221,6 +282,13 @@
   <section class="section">
     <div class="wrap status-shell">
 
+      <a class="back-home" href="index.html">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+        </svg>
+        Back to Home
+      </a>
+
       <div class="status-locked" id="statusLocked">
 
         <div class="status-brand">
@@ -232,7 +300,7 @@
         </div>
 
         <h1>Track Your Detail</h1>
-        <p class="lede">Enter your email and the 4-digit PIN we sent you when you booked.</p>
+        <p class="lede">Enter your email and the 6-digit PIN we texted you when you booked. Once you're in, you can view all of your past details too.</p>
 
         <div class="status-error" id="statusError"></div>
 
@@ -242,10 +310,10 @@
             <input type="email" id="statusEmail" placeholder="jane@example.com" required autocomplete="email">
           </div>
           <div class="form-group">
-            <label for="statusPin">4-Digit PIN</label>
-            <input type="text" id="statusPin" placeholder="0000" maxlength="6" inputmode="numeric" required>
+            <label for="statusPin">6-Digit PIN</label>
+            <input type="text" id="statusPin" placeholder="000000" maxlength="6" inputmode="numeric" required>
           </div>
-          <button class="btn btn-primary btn-lg btn-block" type="submit" id="statusSubmitBtn">View My Detail</button>
+          <button class="btn btn-primary btn-lg btn-block" type="submit" id="statusSubmitBtn">View My Details</button>
         </form>
 
         <p class="status-hint">Don't have a PIN? Text us at 517-781-1731.</p>
@@ -253,70 +321,24 @@
 
       <div class="status-loader" id="statusLoader">
         <div class="status-loader-spinner"></div>
-        <p>Loading your detail…</p>
+        <p>Loading your details…</p>
       </div>
 
       <div class="status-welcome" id="statusWelcome">
-        <div class="status-card">
-          <div class="status-header">
-            <div>
-              <p class="eyebrow" style="margin-bottom:.35rem">Welcome back</p>
-              <h2 id="statusCustomerName">—</h2>
-              <p id="statusVehicleLine">—</p>
-            </div>
-            <div style="text-align:right">
-              <div style="font-family:var(--font-head);font-weight:800;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:.25rem">Service</div>
-              <div id="statusServiceLine" style="font-size:.9rem">—</div>
-            </div>
+        <div class="welcome-header">
+          <div>
+            <p class="eyebrow" style="margin-bottom:.35rem">Welcome back</p>
+            <h2 id="statusCustomerName">—</h2>
+            <p id="statusCustomerEmail">—</p>
           </div>
+        </div>
 
-          <div class="status-detail-grid">
-            <div class="status-detail">
-              <div class="status-detail-label">Location</div>
-              <div class="status-detail-value" id="statusLocationLine">—</div>
-            </div>
-            <div class="status-detail">
-              <div class="status-detail-label">Drop-off</div>
-              <div class="status-detail-value" id="statusDropoffLine">—</div>
-            </div>
-            <div class="status-detail">
-              <div class="status-detail-label">Expected Pickup</div>
-              <div class="status-detail-value" id="statusPickupLine">—</div>
-            </div>
-            <div class="status-detail">
-              <div class="status-detail-label">Progress</div>
-              <div class="status-detail-value" id="statusProgressLine">—</div>
-            </div>
-          </div>
+        <div id="activeJobsContainer"></div>
+        <div id="pastJobsContainer"></div>
 
-          <div id="statusCompleteBlock" class="status-complete" style="display:none">
-            <div class="status-complete-icon">✓</div>
-            <h3>Your vehicle is ready</h3>
-            <p id="statusCompleteMessage">Stop by any time during business hours to pick up.</p>
-          </div>
-
-          <div class="status-progress" id="statusProgress"></div>
-
-          <div class="status-notes" id="statusNotes" style="display:none">
-            <strong>Note from us</strong>
-            <span id="statusNotesText">—</span>
-          </div>
-
-          <div class="status-photo-section" id="statusPhotoSection" style="display:none">
-            <h3>Photos from the shop</h3>
-            <div class="photo-filters" id="photoFilters">
-              <button type="button" class="photo-filter-btn is-active" data-photo-filter="all">All</button>
-              <button type="button" class="photo-filter-btn" data-photo-filter="before">Before</button>
-              <button type="button" class="photo-filter-btn" data-photo-filter="during">During</button>
-              <button type="button" class="photo-filter-btn" data-photo-filter="after">After</button>
-            </div>
-            <div class="status-photos" id="statusPhotos"></div>
-          </div>
-
-          <div class="status-logout">
-            <button class="btn btn-outline" type="button" id="statusLogout">Log out</button>
-            <a class="btn btn-primary" href="sms:+15177811731">Text Us a Question</a>
-          </div>
+        <div class="status-logout">
+          <button class="btn btn-outline" type="button" id="statusLogout">Log out</button>
+          <a class="btn btn-primary" href="sms:+15177811731">Text Us a Question</a>
         </div>
       </div>
 
@@ -339,40 +361,43 @@
 <script src="assets/js/supabase-config.js"></script>
 <script>
 /* =========================================================
-   DuckWorth's Shine Co. — Customer Status Page
+   DuckWorth's Shine Co. — Customer Status Page (multi-job)
    ========================================================= */
 (function () {
   'use strict';
 
   var SESSION_KEY = 'shineco_status_session';
 
-  var lockedEl       = document.getElementById('statusLocked');
-  var welcomeEl      = document.getElementById('statusWelcome');
-  var loaderEl       = document.getElementById('statusLoader');
-  var errorEl        = document.getElementById('statusError');
-  var formEl         = document.getElementById('statusForm');
-  var emailInput     = document.getElementById('statusEmail');
-  var pinInput       = document.getElementById('statusPin');
-  var submitBtn      = document.getElementById('statusSubmitBtn');
-  var logoutBtn      = document.getElementById('statusLogout');
+  var lockedEl        = document.getElementById('statusLocked');
+  var welcomeEl       = document.getElementById('statusWelcome');
+  var loaderEl        = document.getElementById('statusLoader');
+  var errorEl         = document.getElementById('statusError');
+  var formEl          = document.getElementById('statusForm');
+  var emailInput      = document.getElementById('statusEmail');
+  var pinInput        = document.getElementById('statusPin');
+  var submitBtn       = document.getElementById('statusSubmitBtn');
+  var logoutBtn       = document.getElementById('statusLogout');
 
-  var photoSection   = document.getElementById('statusPhotoSection');
-  var photoFiltersEl = document.getElementById('photoFilters');
-  var photoGrid      = document.getElementById('statusPhotos');
+  var activeJobsEl    = document.getElementById('activeJobsContainer');
+  var pastJobsEl      = document.getElementById('pastJobsContainer');
 
-  var lightbox       = document.getElementById('statusLightbox');
-  var lightboxImg    = document.getElementById('statusLightboxImg');
-  var lightboxClose  = document.getElementById('statusLightboxClose');
+  var lightbox        = document.getElementById('statusLightbox');
+  var lightboxImg     = document.getElementById('statusLightboxImg');
+  var lightboxClose   = document.getElementById('statusLightboxClose');
 
-  var currentPhotos  = [];
-  var currentPhotoFilter = 'all';
+  var photoCache      = {};
 
-  /* ---------- Year ---------- */
   document.querySelectorAll('[data-year]').forEach(function (el) {
     el.textContent = new Date().getFullYear();
   });
 
-  /* ---------- Error helpers ---------- */
+  /* ---------- Helpers ---------- */
+  function escapeHtml(str) {
+    return String(str || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+  function escapeAttr(str) {
+    return escapeHtml(str).replace(/"/g, '&quot;');
+  }
   function showError(msg) {
     errorEl.textContent = msg;
     errorEl.classList.add('is-visible');
@@ -390,19 +415,28 @@
     loaderEl.classList.remove('is-visible');
   }
 
-  /* ---------- Fetch job by email + PIN ---------- */
-  async function findJob(email, pin) {
+  /* ---------- Find all jobs for email + PIN ---------- */
+  async function findJobs(email, pin) {
     try {
-      var result = await supabaseClient
+      // First verify the PIN matches at least one job for this email
+      var verify = await supabaseClient
         .from('jobs')
-        .select('*')
-        .eq('active', true)
+        .select('id')
         .ilike('customer_email', email)
         .eq('pin', pin)
         .limit(1);
 
-      if (result.error || !result.data || !result.data.length) return null;
-      return result.data[0];
+      if (verify.error || !verify.data || !verify.data.length) return null;
+
+      // Now fetch all jobs for this email
+      var result = await supabaseClient
+        .from('jobs')
+        .select('*')
+        .ilike('customer_email', email)
+        .order('created_at', { ascending: false });
+
+      if (result.error) return null;
+      return result.data || [];
     } catch (err) {
       return null;
     }
@@ -410,101 +444,70 @@
 
   /* ---------- Fetch photos ---------- */
   async function fetchPhotos(jobId) {
+    if (photoCache[jobId]) return photoCache[jobId];
     try {
       var result = await supabaseClient
         .from('job_photos')
         .select('*')
         .eq('job_id', jobId)
         .order('created_at', { ascending: true });
-      return result.error ? [] : (result.data || []);
+      var photos = result.error ? [] : (result.data || []);
+      photoCache[jobId] = photos;
+      return photos;
     } catch (err) {
       return [];
     }
   }
 
-  /* ---------- Render progress steps ---------- */
-  function renderSteps(job) {
+  /* ---------- Render progress steps (returns HTML string) ---------- */
+  function renderStepsHtml(job) {
     var steps = Array.isArray(job.steps) ? job.steps : [];
     var doneCount = 0;
-    for (var i = 0; i < steps.length; i++) {
-      if (steps[i].done) doneCount++;
-    }
+    for (var i = 0; i < steps.length; i++) if (steps[i].done) doneCount++;
     var pct = steps.length ? Math.round((doneCount / steps.length) * 100) : 0;
-
-    var progressEl = document.getElementById('statusProgress');
-    progressEl.innerHTML = '';
 
     var currentIndex = -1;
     for (var j = 0; j < steps.length; j++) {
       if (!steps[j].done) { currentIndex = j; break; }
     }
 
+    var html = '';
     for (var k = 0; k < steps.length; k++) {
       var step = steps[k];
       var isDone = !!step.done;
       var isCurrent = !isDone && k === currentIndex;
-
-      var row = document.createElement('div');
-      row.className = 'status-step'
-        + (isDone ? ' is-done' : '')
-        + (isCurrent ? ' is-current' : '');
-
-      var dot = document.createElement('div');
-      dot.className = 'status-step-dot';
-      dot.textContent = isDone ? '✓' : (isCurrent ? '●' : String(k + 1));
-
-      var label = document.createElement('div');
-      label.className = 'status-step-label';
-      label.textContent = step.label;
-
-      row.appendChild(dot);
-      row.appendChild(label);
-      progressEl.appendChild(row);
+      html +=
+        '<div class="status-step' +
+          (isDone ? ' is-done' : '') +
+          (isCurrent ? ' is-current' : '') + '">' +
+          '<div class="status-step-dot">' +
+            (isDone ? '✓' : (isCurrent ? '●' : String(k + 1))) +
+          '</div>' +
+          '<div class="status-step-label">' + escapeHtml(step.label) + '</div>' +
+        '</div>';
     }
 
-    return { pct: pct, doneCount: doneCount, total: steps.length };
+    return {
+      html: html,
+      pct: pct,
+      doneCount: doneCount,
+      total: steps.length,
+      allDone: steps.length > 0 && doneCount === steps.length
+    };
   }
 
-  /* ---------- Render photo filters ---------- */
-  function renderPhotoFilters() {
-    var btns = photoFiltersEl.querySelectorAll('.photo-filter-btn');
-    for (var i = 0; i < btns.length; i++) {
-      (function (btn) {
-        btn.addEventListener('click', function () {
-          currentPhotoFilter = btn.getAttribute('data-photo-filter');
-          for (var j = 0; j < btns.length; j++) {
-            btns[j].classList.toggle('is-active', btns[j] === btn);
-          }
-          renderPhotos();
-        });
-      })(btns[i]);
-    }
-  }
+  /* ---------- Render photos for a job ---------- */
+  async function renderPhotosHtml(jobId) {
+    var photos = await fetchPhotos(jobId);
+    if (!photos.length) return '';
 
-  /* ---------- Render photos with filter ---------- */
-  function renderPhotos() {
-    var filtered = currentPhotos;
-    if (currentPhotoFilter !== 'all') {
-      filtered = currentPhotos.filter(function (p) {
-        return (p.photo_type || 'progress') === currentPhotoFilter;
-      });
-    }
+    var html =
+      '<div class="status-photo-section">' +
+        '<h4>Photos from the shop</h4>' +
+        '<div class="status-photos">';
 
-    if (!currentPhotos.length) {
-      photoSection.style.display = 'none';
-      return;
-    }
-    photoSection.style.display = 'block';
-
-    if (!filtered.length) {
-      photoGrid.innerHTML =
-        '<p style="font-size:.82rem;color:var(--muted-2);grid-column:1/-1">No photos in this category yet.</p>';
-      return;
-    }
-
-    var html = '';
-    for (var i = 0; i < filtered.length; i++) {
-      var p = filtered[i];
+    for (var i = 0; i < photos.length; i++) {
+      var p = photos[i];
       var type = p.photo_type || 'progress';
       html +=
         '<a class="status-photo" href="#" data-photo-src="' + escapeAttr(p.photo_url) + '">' +
@@ -512,15 +515,178 @@
           '<img src="' + escapeAttr(p.photo_url) + '" alt="Job photo" loading="lazy">' +
         '</a>';
     }
-    photoGrid.innerHTML = html;
+    html += '</div></div>';
+    return html;
+  }
 
-    var links = photoGrid.querySelectorAll('[data-photo-src]');
-    for (var k = 0; k < links.length; k++) {
-      links[k].addEventListener('click', function (e) {
+  /* ---------- Build one job block ---------- */
+  async function buildJobBlockHtml(job) {
+    var stepInfo = renderStepsHtml(job);
+    var photosHtml = await renderPhotosHtml(job.id);
+
+    var completeBlock = stepInfo.allDone
+      ? '<div class="status-complete">' +
+          '<div class="status-complete-icon">✓</div>' +
+          '<h3>Your vehicle is ready</h3>' +
+          '<p>Stop by any time during business hours to pick up.</p>' +
+        '</div>'
+      : '';
+
+    var notesBlock = (job.notes && job.notes.trim())
+      ? '<div class="status-notes">' +
+          '<strong>Note from us</strong>' +
+          escapeHtml(job.notes) +
+        '</div>'
+      : '';
+
+    return (
+      '<div class="job-block ' + (job.active ? 'is-active' : '') + '">' +
+        '<div class="job-block-header">' +
+          '<div>' +
+            '<h3>' + escapeHtml(job.vehicle) + '</h3>' +
+            '<p>' + escapeHtml(job.service) + '</p>' +
+          '</div>' +
+          '<div class="status-pill ' + (job.active ? 'is-active' : 'is-done') + '">' +
+            (job.active ? 'In Progress' : 'Complete') +
+          '</div>' +
+        '</div>' +
+
+        '<div class="status-detail-grid">' +
+          '<div class="status-detail">' +
+            '<div class="status-detail-label">Location</div>' +
+            '<div class="status-detail-value">' + escapeHtml(job.location || '—') + '</div>' +
+          '</div>' +
+          '<div class="status-detail">' +
+            '<div class="status-detail-label">Drop-off</div>' +
+            '<div class="status-detail-value">' + escapeHtml(job.dropoff || '—') + '</div>' +
+          '</div>' +
+          '<div class="status-detail">' +
+            '<div class="status-detail-label">Expected Pickup</div>' +
+            '<div class="status-detail-value">' + escapeHtml(job.pickup || '—') + '</div>' +
+          '</div>' +
+          '<div class="status-detail">' +
+            '<div class="status-detail-label">Progress</div>' +
+            '<div class="status-detail-value">' + stepInfo.pct + '% complete</div>' +
+          '</div>' +
+        '</div>' +
+
+        completeBlock +
+        '<div class="status-progress">' + stepInfo.html + '</div>' +
+        notesBlock +
+        photosHtml +
+      '</div>'
+    );
+  }
+
+  /* ---------- Build collapsed past job item ---------- */
+  async function buildPastItemHtml(job, index) {
+    var stepInfo = renderStepsHtml(job);
+    var photosHtml = await renderPhotosHtml(job.id);
+
+    var notesBlock = (job.notes && job.notes.trim())
+      ? '<div class="status-notes">' +
+          '<strong>Note from us</strong>' +
+          escapeHtml(job.notes) +
+        '</div>'
+      : '';
+
+    var dateLabel = job.updated_at
+      ? new Date(job.updated_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+      : '';
+
+    return (
+      '<div class="past-item" data-past-index="' + index + '">' +
+        '<button class="past-summary" type="button" aria-expanded="false">' +
+          '<div class="past-summary-info">' +
+            '<strong>' + escapeHtml(job.vehicle) + ' · ' + escapeHtml(job.service) + '</strong>' +
+            '<span>' + (dateLabel ? dateLabel + ' · ' : '') + 'Complete</span>' +
+          '</div>' +
+          '<span class="past-chevron" aria-hidden="true">' +
+            '<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">' +
+              '<path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6z"/>' +
+            '</svg>' +
+          '</span>' +
+        '</button>' +
+        '<div class="past-body">' +
+          '<div class="past-body-inner">' +
+            '<div class="status-detail-grid">' +
+              '<div class="status-detail">' +
+                '<div class="status-detail-label">Drop-off</div>' +
+                '<div class="status-detail-value">' + escapeHtml(job.dropoff || '—') + '</div>' +
+              '</div>' +
+              '<div class="status-detail">' +
+                '<div class="status-detail-label">Pickup</div>' +
+                '<div class="status-detail-value">' + escapeHtml(job.pickup || '—') + '</div>' +
+              '</div>' +
+            '</div>' +
+            '<div class="status-progress">' + stepInfo.html + '</div>' +
+            notesBlock +
+            photosHtml +
+          '</div>' +
+        '</div>' +
+      '</div>'
+    );
+  }
+
+  /* ---------- Render everything ---------- */
+  async function renderAllJobs(jobs, email) {
+    document.getElementById('statusCustomerName').textContent = jobs[0].customer_name || 'Customer';
+    document.getElementById('statusCustomerEmail').textContent = email;
+
+    var activeJobs = jobs.filter(function (j) { return j.active; });
+    var pastJobs   = jobs.filter(function (j) { return !j.active; });
+
+    // Active section
+    activeJobsEl.innerHTML = '';
+    if (activeJobs.length) {
+      // Most recent active job expanded
+      var firstHtml = await buildJobBlockHtml(activeJobs[0]);
+      activeJobsEl.insertAdjacentHTML('beforeend', firstHtml);
+
+      // Other active jobs, also fully expanded
+      for (var i = 1; i < activeJobs.length; i++) {
+        var h = await buildJobBlockHtml(activeJobs[i]);
+        activeJobsEl.insertAdjacentHTML('beforeend', h);
+      }
+    }
+
+    // Past section
+    pastJobsEl.innerHTML = '';
+    if (pastJobs.length) {
+      var pastHtml = '<div class="past-section">' +
+        '<h3>Past Details</h3>';
+      for (var p = 0; p < pastJobs.length; p++) {
+        pastHtml += await buildPastItemHtml(pastJobs[p], p);
+      }
+      pastHtml += '</div>';
+      pastJobsEl.innerHTML = pastHtml;
+
+      // Bind past toggles
+      var items = pastJobsEl.querySelectorAll('.past-item');
+      for (var q = 0; q < items.length; q++) {
+        (function (item) {
+          var summary = item.querySelector('.past-summary');
+          var body = item.querySelector('.past-body');
+          summary.addEventListener('click', function () {
+            var isOpen = item.classList.toggle('is-open');
+            summary.setAttribute('aria-expanded', String(isOpen));
+            body.style.maxHeight = isOpen ? (body.scrollHeight + 'px') : '0px';
+          });
+        })(items[q]);
+      }
+    }
+
+    // Bind photo lightbox
+    document.querySelectorAll('[data-photo-src]').forEach(function (link) {
+      link.addEventListener('click', function (e) {
         e.preventDefault();
         openLightbox(this.getAttribute('data-photo-src'));
       });
-    }
+    });
+
+    hideLoader();
+    lockedEl.style.display = 'none';
+    welcomeEl.classList.add('is-visible');
   }
 
   /* ---------- Lightbox ---------- */
@@ -544,47 +710,7 @@
     if (e.key === 'Escape' && lightbox.classList.contains('is-open')) closeLightbox();
   });
 
-  /* ---------- Render job details ---------- */
-  async function renderJob(job) {
-    document.getElementById('statusCustomerName').textContent = job.customer_name || 'Customer';
-    document.getElementById('statusVehicleLine').textContent = job.vehicle || '—';
-    document.getElementById('statusServiceLine').textContent = job.service || '—';
-    document.getElementById('statusLocationLine').textContent = job.location || '—';
-    document.getElementById('statusDropoffLine').textContent = job.dropoff || '—';
-    document.getElementById('statusPickupLine').textContent = job.pickup || '—';
-
-    var result = renderSteps(job);
-    document.getElementById('statusProgressLine').textContent = result.pct + '% complete';
-
-    var completeEl = document.getElementById('statusCompleteBlock');
-    if (result.total && result.doneCount === result.total) {
-      completeEl.style.display = 'block';
-    } else {
-      completeEl.style.display = 'none';
-    }
-
-    var notesEl = document.getElementById('statusNotes');
-    if (job.notes && job.notes.trim()) {
-      notesEl.style.display = 'block';
-      document.getElementById('statusNotesText').textContent = job.notes;
-    } else {
-      notesEl.style.display = 'none';
-    }
-
-    currentPhotos = await fetchPhotos(job.id);
-    currentPhotoFilter = 'all';
-    var btns = photoFiltersEl.querySelectorAll('.photo-filter-btn');
-    for (var i = 0; i < btns.length; i++) {
-      btns[i].classList.toggle('is-active', btns[i].getAttribute('data-photo-filter') === 'all');
-    }
-    renderPhotos();
-
-    hideLoader();
-    lockedEl.style.display = 'none';
-    welcomeEl.classList.add('is-visible');
-  }
-
-  /* ---------- Session helpers ---------- */
+  /* ---------- Session ---------- */
   function saveSession(email, pin) {
     try { sessionStorage.setItem(SESSION_KEY, JSON.stringify({ e: email, p: pin })); } catch (err) {}
   }
@@ -610,24 +736,28 @@
       showError('Please enter both your email and PIN.');
       return;
     }
+    if (pin.length < 4) {
+      showError('Please enter your full PIN.');
+      return;
+    }
 
     submitBtn.disabled = true;
     submitBtn.textContent = 'Looking up…';
 
-    var job = await findJob(email, pin);
+    var jobs = await findJobs(email, pin);
 
-    if (!job) {
-      showError('We could not find an active job matching that email and PIN. Double-check your PIN, or text us at 517-781-1731.');
+    if (!jobs || !jobs.length) {
+      showError('We could not find any jobs matching that email and PIN. Double-check your PIN, or text us at 517-781-1731.');
       submitBtn.disabled = false;
-      submitBtn.textContent = 'View My Detail';
+      submitBtn.textContent = 'View My Details';
       return;
     }
 
     saveSession(email, pin);
-    await renderJob(job);
+    await renderAllJobs(jobs, email);
 
     submitBtn.disabled = false;
-    submitBtn.textContent = 'View My Detail';
+    submitBtn.textContent = 'View My Details';
   });
 
   /* ---------- Logout ---------- */
@@ -638,39 +768,27 @@
     emailInput.value = '';
     pinInput.value = '';
     clearError();
-    currentPhotos = [];
-    currentPhotoFilter = 'all';
+    activeJobsEl.innerHTML = '';
+    pastJobsEl.innerHTML = '';
+    photoCache = {};
     emailInput.focus();
   });
 
-  /* ---------- Init ---------- */
-  renderPhotoFilters();
-
+  /* ---------- Init from session ---------- */
   (async function init() {
     var session = loadSession();
     if (!session) return;
 
     showLoader();
-    var job = await findJob(session.e, session.p);
-    if (job) {
-      await renderJob(job);
+    var jobs = await findJobs(session.e, session.p);
+    if (jobs && jobs.length) {
+      await renderAllJobs(jobs, session.e);
     } else {
       clearSession();
       hideLoader();
       lockedEl.style.display = '';
     }
   })();
-
-  /* ---------- Escape helpers ---------- */
-  function escapeHtml(str) {
-    return String(str || '')
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;');
-  }
-  function escapeAttr(str) {
-    return escapeHtml(str).replace(/"/g, '&quot;');
-  }
 })();
 </script>
 </body>

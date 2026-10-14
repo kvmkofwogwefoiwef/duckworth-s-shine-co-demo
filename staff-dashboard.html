@@ -17,6 +17,17 @@
   .dash-header h1{font-size:1.75rem;margin:0}
   .dash-actions{display:flex;flex-wrap:wrap;gap:.65rem}
 
+  .back-home{
+    display:inline-flex;align-items:center;gap:.5rem;
+    font-size:.82rem;font-weight:500;color:var(--muted);
+    padding:.55rem 1rem;border-radius:999px;
+    background:var(--bg-2);border:1px solid var(--line);
+    margin-bottom:1.25rem;
+    transition:border-color .2s,color .2s,transform .2s;
+  }
+  .back-home:hover{border-color:var(--gold);color:var(--gold);transform:translateX(-2px)}
+  .back-home svg{width:14px;height:14px;fill:currentColor;flex-shrink:0}
+
   .dash-toolbar{
     display:flex;flex-wrap:wrap;gap:.75rem;margin-bottom:1.5rem;
     background:var(--bg-2);border:1px solid var(--line);
@@ -125,21 +136,13 @@
   .photo-upload-section{
     margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid var(--line);
   }
-  .photo-upload-section h3{
-    font-size:.95rem;margin-bottom:.4rem;
-  }
-  .photo-upload-hint{
-    font-size:.78rem;color:var(--muted-2);margin-bottom:1rem;
-  }
-  .photo-upload-row{
-    display:flex;gap:.6rem;align-items:center;flex-wrap:wrap;
-  }
+  .photo-upload-section h3{font-size:.95rem;margin-bottom:.4rem}
+  .photo-upload-hint{font-size:.78rem;color:var(--muted-2);margin-bottom:1rem}
+  .photo-upload-row{display:flex;gap:.6rem;align-items:center;flex-wrap:wrap}
   .photo-upload-row input[type="file"]{
-    flex:1;min-width:180px;
-    padding:.6rem .8rem;
+    flex:1;min-width:180px;padding:.6rem .8rem;
     background:var(--bg);border:1px dashed var(--line-2);
-    border-radius:var(--radius-sm);color:var(--muted);font-size:.82rem;
-    cursor:pointer;
+    border-radius:var(--radius-sm);color:var(--muted);font-size:.82rem;cursor:pointer;
   }
   .photo-upload-row input[type="file"]:hover{border-color:var(--gold)}
   .photo-upload-row select{
@@ -150,8 +153,7 @@
   .photo-upload-row button{
     padding:.65rem 1.15rem;border-radius:999px;
     font-family:var(--font-head);font-size:.82rem;font-weight:700;
-    background:var(--grad-btn);color:#fff;border:0;cursor:pointer;
-    transition:.2s;
+    background:var(--grad-btn);color:#fff;border:0;cursor:pointer;transition:.2s;
   }
   .photo-upload-row button:disabled{opacity:.5;cursor:not-allowed}
   .photo-upload-row button:not(:disabled):hover{transform:translateY(-1px)}
@@ -171,8 +173,7 @@
     width:24px;height:24px;border-radius:50%;
     background:rgba(0,0,0,.75);color:#fff;border:0;
     font-size:.85rem;line-height:1;cursor:pointer;
-    display:grid;place-items:center;
-    transition:background .2s;
+    display:grid;place-items:center;transition:background .2s;
   }
   .photo-thumb button:hover{background:#c0392b}
   .photo-type-tag{
@@ -222,6 +223,13 @@
 <main id="main">
   <section class="section">
     <div class="wrap">
+
+      <a class="back-home" href="index.html">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+        </svg>
+        Back to Home
+      </a>
 
       <div class="dash-header">
         <div>
@@ -282,7 +290,7 @@
 <script src="assets/js/supabase-config.js"></script>
 <script>
 /* =========================================================
-   DuckWorth's Shine Co. — Staff Dashboard (with photo upload)
+   DuckWorth's Shine Co. — Staff Dashboard
    ========================================================= */
 (function () {
   'use strict';
@@ -310,12 +318,8 @@
   var loadMoreWrap = document.getElementById('loadMoreWrap');
   var loadMoreBtn  = document.getElementById('loadMoreBtn');
 
-  /* ---------- Helpers ---------- */
   function escapeHtml(str) {
-    return String(str || '')
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;');
+    return String(str || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
   }
   function escapeAttr(str) {
     return escapeHtml(str).replace(/"/g, '&quot;');
@@ -338,12 +342,10 @@
     } catch (err) {}
   }
 
-  /* ---------- Year ---------- */
   document.querySelectorAll('[data-year]').forEach(function (el) {
     el.textContent = new Date().getFullYear();
   });
 
-  /* ---------- Auth ---------- */
   async function checkAuth() {
     try {
       var result = await supabaseClient.auth.getSession();
@@ -360,14 +362,11 @@
   }
 
   logoutBtn.addEventListener('click', async function () {
-    try {
-      await supabaseClient.auth.signOut({ scope: 'local' });
-    } catch (err) {}
+    try { await supabaseClient.auth.signOut({ scope: 'local' }); } catch (err) {}
     wipeSupabaseStorage();
     window.location.replace('staff-login.html');
   });
 
-  /* ---------- Load Jobs ---------- */
   async function loadJobs() {
     try {
       var result = await supabaseClient
@@ -386,7 +385,6 @@
     }
   }
 
-  /* ---------- Filter & Search ---------- */
   function applyFilters() {
     filteredJobs = allJobs.filter(function (job) {
       if (currentFilter === 'active' && !job.active) return false;
@@ -410,7 +408,6 @@
     renderJobsList();
   }
 
-  /* ---------- Render Jobs List ---------- */
   function renderJobsList() {
     if (!filteredJobs.length) {
       var msg = allJobs.length
@@ -489,12 +486,8 @@
     renderJobsList();
   });
 
-  /* ---------- Render Edit Form ---------- */
   async function renderEditForm() {
-    if (isCreatingNew) {
-      renderNewJobForm();
-      return;
-    }
+    if (isCreatingNew) { renderNewJobForm(); return; }
 
     var job = null;
     for (var i = 0; i < allJobs.length; i++) {
@@ -619,7 +612,6 @@
     }
   }
 
-  /* ---------- Photos ---------- */
   async function loadPhotos(jobId) {
     var grid = document.getElementById('photoGrid');
     if (!grid) return;
@@ -631,11 +623,7 @@
         .eq('job_id', jobId)
         .order('created_at', { ascending: true });
 
-      if (result.error) {
-        currentJobPhotos = [];
-        grid.innerHTML = '';
-        return;
-      }
+      if (result.error) { currentJobPhotos = []; grid.innerHTML = ''; return; }
       currentJobPhotos = result.data || [];
       renderPhotoGrid();
     } catch (err) {
@@ -715,11 +703,7 @@
         return;
       }
 
-      var urlResult = supabaseClient
-        .storage
-        .from('job-photos')
-        .getPublicUrl(filename);
-
+      var urlResult = supabaseClient.storage.from('job-photos').getPublicUrl(filename);
       var publicUrl = urlResult.data.publicUrl;
 
       var insertResult = await supabaseClient
@@ -759,11 +743,7 @@
         if (currentJobPhotos[i].id === photoId) { row = currentJobPhotos[i]; break; }
       }
 
-      var delResult = await supabaseClient
-        .from('job_photos')
-        .delete()
-        .eq('id', photoId);
-
+      var delResult = await supabaseClient.from('job_photos').delete().eq('id', photoId);
       if (delResult.error) {
         toast('Could not delete: ' + delResult.error.message, true);
         return;
@@ -783,7 +763,6 @@
     }
   }
 
-  /* ---------- Save Job ---------- */
   async function saveJob() {
     var job = null;
     for (var i = 0; i < allJobs.length; i++) {
@@ -796,10 +775,7 @@
     for (var r = 0; r < rows.length; r++) {
       var checkbox = rows[r].querySelector('input[type="checkbox"]');
       var textInput = rows[r].querySelector('input[type="text"]');
-      steps.push({
-        label: textInput.value.trim() || 'Step',
-        done: checkbox.checked
-      });
+      steps.push({ label: textInput.value.trim() || 'Step', done: checkbox.checked });
     }
 
     var updates = {
@@ -823,7 +799,6 @@
     await renderEditForm();
   }
 
-  /* ---------- Toggle Active ---------- */
   async function toggleActive() {
     var job = null;
     for (var i = 0; i < allJobs.length; i++) {
@@ -845,7 +820,6 @@
     await renderEditForm();
   }
 
-  /* ---------- Delete Job ---------- */
   async function deleteJob() {
     if (!confirm('Delete this job permanently? This cannot be undone.')) return;
 
@@ -860,7 +834,6 @@
     renderEditForm();
   }
 
-  /* ---------- New Job Form ---------- */
   function renderNewJobForm() {
     editEmptyEl.style.display = 'none';
     editFormEl.style.display = '';
@@ -885,8 +858,8 @@
           '<input type="tel" id="newPhone" placeholder="517-555-0142">' +
         '</div>' +
         '<div class="form-group">' +
-          '<label>4-Digit PIN</label>' +
-          '<input type="text" id="newPin" maxlength="4" placeholder="0000" inputmode="numeric">' +
+          '<label>6-Digit PIN</label>' +
+          '<input type="text" id="newPin" maxlength="6" placeholder="000000" inputmode="numeric">' +
         '</div>' +
       '</div>' +
 
@@ -940,7 +913,6 @@
     });
   }
 
-  /* ---------- Create Job ---------- */
   async function createJob() {
     var name = document.getElementById('newName').value.trim();
     var email = document.getElementById('newEmail').value.trim().toLowerCase();
@@ -1000,7 +972,6 @@
     await renderEditForm();
   }
 
-  /* ---------- Toolbar Listeners ---------- */
   var searchTimer = null;
   searchEl.addEventListener('input', function () {
     clearTimeout(searchTimer);
@@ -1018,7 +989,6 @@
     applyFilters();
   });
 
-  /* ---------- Init ---------- */
   newJobBtn.addEventListener('click', function () {
     isCreatingNew = true;
     selectedJobId = null;
